@@ -1,0 +1,108 @@
+import { UseCaseItem } from "@/types";
+
+export const USE_CASES: UseCaseItem[] = [
+  {
+    category: "E-commerce & Retail",
+    title: "Order Issues, Returns & Tracking",
+    description: "Handle tracking inquiries, address corrections, return labels, and payment failure reconciliations instantly over phone.",
+    capabilities: [
+      "Real-time Shopify & ERP inventory lookups",
+      "Automated return merchandise authorization (RMA)",
+      "Card dispute and declined payment recovery",
+    ],
+    metrics: "78%",
+    metricLabel: "Support ticket volume deflected from human reps",
+    badge: "Most Deployed",
+  },
+  {
+    category: "SaaS & Developer Tools",
+    title: "Inbound Trial Qualification & Tech Onboarding",
+    description: "Call incoming high-intent signups within 30 seconds, qualify seat count and architecture needs, and book AE demos directly.",
+    capabilities: [
+      "Instant calendar availability scheduling",
+      "BANT prospect qualification and scoring",
+      "Automated enrichment into Salesforce and HubSpot",
+    ],
+    metrics: "4.2x",
+    metricLabel: "Increase in qualified demo booking speed",
+    badge: "High Growth",
+  },
+  {
+    category: "Fintech & Banking",
+    title: "Account Verification & Card Lock",
+    description: "Secure voice authentication, transaction verification, suspicious charge checks, and lost card locks with zero hold time.",
+    capabilities: [
+      "Cryptographic voice biometric & OTP matching",
+      "Instant freeze and reissue card triggers",
+      "Audit logs with immutable event timestamps",
+    ],
+    metrics: "< 15s",
+    metricLabel: "Average emergency card freeze duration",
+    badge: "Security Focused",
+  },
+  {
+    category: "Healthcare & Clinics",
+    title: "Patient Scheduling & Intake Reminders",
+    description: "Coordinate patient appointment rescheduling, doctor intake verification, prescription refill requests, and office directions.",
+    capabilities: [
+      "Integration with EHR and scheduling calendars",
+      "Patient identity and coverage checks",
+      "Follow-up SMS confirmation dispatch",
+    ],
+    metrics: "94%",
+    metricLabel: "Reduction in missed clinic appointments",
+    badge: "Mission Critical",
+  },
+  {
+    category: "Travel & Hospitality",
+    title: "Flight Delays, Room Upgrades & Concierge",
+    description: "Manage flight cancellation rebookings, hotel room service requests, baggage claim lookups, and loyalty point redemptions.",
+    capabilities: [
+      "Global reservation system (GDS) synchronization",
+      "Multi-timezone flight schedule lookup",
+      "Loyalty tier perk calculation and upgrades",
+    ],
+    metrics: "18.4s",
+    metricLabel: "Avg time to rebook canceled connection",
+    badge: "24/7 Global",
+  },
+  {
+    category: "Logistics & Supply Chain",
+    title: "Driver Dispatch, BOL & Delivery ETA",
+    description: "Automate driver check-ins, dock appointment rescheduling, freight tracking, and bill of lading verification via phone.",
+    capabilities: [
+      "Fleet telematics and GPS status integration",
+      "Exception notification and warehouse alerts",
+      "Proof of delivery status verification",
+    ],
+    metrics: "100%",
+    metricLabel: "Elimination of missed freight dispatch calls",
+    badge: "High Volume",
+  },
+  {
+    category: "Higher Education & EdTech",
+    title: "Admissions Inquiries & Course Registration",
+    description: "Guide prospective students through application deadlines, financial aid document requirements, and advisor appointments.",
+    capabilities: [
+      "Student information system (SIS) lookup",
+      "Application checklist status readouts",
+      "Financial aid eligibility basic guidance",
+    ],
+    metrics: "62%",
+    metricLabel: "Increase in completed admissions applications",
+    badge: "Scalable",
+  },
+  {
+    category: "Consumer Apps & On-Demand",
+    title: "Account Recovery & Live Delivery Support",
+    description: "Assist riders, couriers, and consumers with missing items, account lockouts, and live ride dispatch issues with zero queue.",
+    capabilities: [
+      "High-concurrency call storm handling (10k+ calls/min)",
+      "Location and map coordinates validation",
+      "Instant in-app credit and promo code issuance",
+    ],
+    metrics: "0 sec",
+    metricLabel: "Caller hold time during peak surges",
+    badge: "Ultra Low Latency",
+  },
+];
