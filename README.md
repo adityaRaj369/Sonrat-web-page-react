@@ -29,6 +29,14 @@ npm run dev
 
 Open [http://localhost:3000](http://localhost:3000)
 
+## SEO configuration
+
+The site includes a canonical URL, Open Graph/Twitter preview image, robots rules,
+sitemap, web manifest, and Organization/WebSite structured data. Before deployment,
+set `NEXT_PUBLIC_SITE_URL` to the final HTTPS domain (for example,
+`https://www.yourdomain.com`) in your hosting environment. This prevents search
+engines from indexing the temporary Hostinger URL as the canonical site.
+
 ## Project Structure
 
 ```
