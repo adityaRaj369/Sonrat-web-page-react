@@ -7,6 +7,7 @@ import { Architecture } from "@/components/sections/Architecture";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { ProductModules } from "@/components/sections/ProductModules";
 import { LiveDemo } from "@/components/sections/LiveDemo";
+import { Coverage } from "@/components/sections/Coverage";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/layout/Footer";
 import { ContactSalesModal } from "@/components/interactive/ContactSalesModal";
@@ -34,6 +35,7 @@ export default function Home() {
         <Architecture />
         <HowItWorks />
         <ProductModules />
+        <Coverage />
         <LiveDemo />
         <FinalCta
           onOpenDemo={() => setIsSalesOpen(true)}

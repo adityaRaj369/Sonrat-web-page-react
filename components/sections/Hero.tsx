@@ -87,7 +87,7 @@ export function Hero({ onOpenDemo, onOpenSales }: HeroProps) {
             >
               <span className="inline-flex items-center gap-1.5"><BookOpen className="w-4 h-4" /> Agents · knowledge · versions</span>
               <span className="inline-flex items-center gap-1.5"><PhoneCall className="w-4 h-4" /> Campaigns + inbound</span>
-              <span className="inline-flex items-center gap-1.5"><Radio className="w-4 h-4" /> Transcripts · outcomes</span>
+              <span className="inline-flex items-center gap-1.5"><Radio className="w-4 h-4" /> Multilingual · 24/7 support</span>
             </motion.div>
 
             <SignalGraphic className="w-full max-w-sm mt-8 opacity-90" />
