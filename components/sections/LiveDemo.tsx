@@ -6,135 +6,192 @@ import { Pause, Play, Phone, PhoneOff, RotateCcw, Volume2 } from "lucide-react";
 import { StatusBadge } from "@/components/product/DashboardFrame";
 import { Atmosphere } from "@/components/ui/atmosphere";
 import {
+  playClip,
   playConnectBeep,
   playRingBurst,
-  speakLine,
-  stopSpeech,
+  stopClip,
   unlockDemoAudio,
 } from "@/lib/demo-audio";
 
-type Phase = "ringing" | "pickup" | "talking";
+type Phase = "ringing" | "pickup" | "talking" | "done";
 
 const SCRIPT = [
-  { delay: 3200, from: "customer" as const, text: "Hi — I saw Skyline Residences in Whitefield. Any 3BHK left?" },
-  { delay: 5400, from: "agent" as const, text: "Yes, two units. I can book Saturday 11 AM — shall I confirm?" },
-  { delay: 8400, from: "customer" as const, text: "Haan, Saturday theek hai. Call me if anything changes." },
-  { delay: 10600, from: "agent" as const, text: "Booked. Lead created and callback set for tomorrow 5 PM." },
+  {
+    from: "agent" as const,
+    text: "Hello, this is Ava from Edoply Homes. Am I speaking with Riya Sharma?",
+    audio: "/demo/01-agent.mp3",
+  },
+  {
+    from: "customer" as const,
+    text: "Haan, yes, speaking.",
+    audio: "/demo/02-customer.mp3",
+  },
+  {
+    from: "agent" as const,
+    text: "Great — calling about Skyline Residences in Whitefield. You asked about 3BHK availability.",
+    audio: "/demo/03-agent.mp3",
+  },
+  {
+    from: "customer" as const,
+    text: "Yes, I saw it online. Are any 3BHKs still left?",
+    audio: "/demo/04-customer.mp3",
+  },
+  {
+    from: "agent" as const,
+    text: "Yes, two units on the 12th and 14th floor. Saturday 11 AM for a site visit?",
+    audio: "/demo/05-agent.mp3",
+  },
+  {
+    from: "customer" as const,
+    text: "Saturday theek hai. Can someone send the location on WhatsApp?",
+    audio: "/demo/06-customer.mp3",
+  },
+  {
+    from: "agent" as const,
+    text: "Absolutely. I’ll create your lead, book the visit, and share the pin.",
+    audio: "/demo/07-agent.mp3",
+  },
+  {
+    from: "customer" as const,
+    text: "Perfect. Please call me if the time changes.",
+    audio: "/demo/08-customer.mp3",
+  },
+  {
+    from: "agent" as const,
+    text: "Done — appointment booked, callback set for tomorrow 5 PM. Thank you, Riya!",
+    audio: "/demo/09-agent.mp3",
+  },
 ];
 
-const LOOP_MS = 14500;
+const RING_MS = 2400;
+const PICKUP_MS = 900;
+const GAP_MS = 380;
+const END_HOLD_MS = 2200;
 
 export function LiveDemo() {
   const [playing, setPlaying] = useState(false);
   const [phase, setPhase] = useState<Phase>("ringing");
   const [visibleCount, setVisibleCount] = useState(0);
+  const [lineIndex, setLineIndex] = useState(-1);
   const [elapsed, setElapsed] = useState(0);
   const [soundOn, setSoundOn] = useState(false);
 
-  const spokenRef = useRef(0);
-  const phaseAudioRef = useRef<Phase | null>(null);
+  const runIdRef = useRef(0);
   const audioReadyRef = useRef(false);
+  const startedAtRef = useRef<number | null>(null);
+  const playingRef = useRef(false);
+
+  useEffect(() => {
+    playingRef.current = playing;
+  }, [playing]);
+
+  useEffect(() => {
+    if (!playing) return;
+    const tick = window.setInterval(() => {
+      if (startedAtRef.current == null) return;
+      setElapsed(Date.now() - startedAtRef.current);
+    }, 100);
+    return () => window.clearInterval(tick);
+  }, [playing]);
+
+  useEffect(() => {
+    if (!playing) return;
+
+    const runId = ++runIdRef.current;
+    let cancelled = false;
+
+    const stillActive = () => !cancelled && runIdRef.current === runId && playingRef.current;
+
+    const wait = (ms: number) =>
+      new Promise<void>((resolve) => {
+        window.setTimeout(resolve, ms);
+      });
+
+    const run = async () => {
+      startedAtRef.current = Date.now();
+      setPhase("ringing");
+      setVisibleCount(0);
+      setLineIndex(-1);
+      stopClip();
+
+      const ctx = await unlockDemoAudio();
+      if (!stillActive()) return;
+
+      // Ringing
+      if (ctx && soundOn) {
+        playRingBurst(ctx);
+        await wait(1100);
+        if (!stillActive()) return;
+        playRingBurst(ctx);
+        await wait(Math.max(0, RING_MS - 1100));
+      } else {
+        await wait(RING_MS);
+      }
+      if (!stillActive()) return;
+
+      // Pickup
+      setPhase("pickup");
+      if (ctx && soundOn) playConnectBeep(ctx);
+      await wait(PICKUP_MS);
+      if (!stillActive()) return;
+
+      // Conversation
+      setPhase("talking");
+      for (let i = 0; i < SCRIPT.length; i++) {
+        if (!stillActive()) return;
+        setLineIndex(i);
+        setVisibleCount(i + 1);
+
+        if (soundOn) {
+          try {
+            await playClip(SCRIPT[i].audio);
+          } catch {
+            await wait(2200);
+          }
+        } else {
+          await wait(2200);
+        }
+
+        if (!stillActive()) return;
+        await wait(GAP_MS);
+      }
+
+      if (!stillActive()) return;
+      setPhase("done");
+      await wait(END_HOLD_MS);
+      if (!stillActive()) return;
+
+      // Loop
+      void run();
+    };
+
+    void run();
+
+    return () => {
+      cancelled = true;
+      stopClip();
+    };
+  }, [playing, soundOn]);
 
   const enableSound = async () => {
     const ctx = await unlockDemoAudio();
     if (ctx) {
       audioReadyRef.current = true;
       setSoundOn(true);
-      // Warm speech voices (Chrome loads them lazily)
-      window.speechSynthesis?.getVoices();
     }
     return ctx;
   };
 
-  useEffect(() => {
-    if (!playing) return;
-    const tick = window.setInterval(() => {
-      setElapsed((prev) => (prev + 80) % LOOP_MS);
-    }, 80);
-    return () => window.clearInterval(tick);
-  }, [playing]);
-
-  useEffect(() => {
-    if (elapsed < 1800) {
-      setPhase("ringing");
-      setVisibleCount(0);
-      return;
-    }
-    if (elapsed < 3000) {
-      setPhase("pickup");
-      setVisibleCount(0);
-      return;
-    }
-    setPhase("talking");
-    setVisibleCount(SCRIPT.filter((line) => elapsed >= line.delay).length);
-  }, [elapsed]);
-
-  // Ring + connect sounds
-  useEffect(() => {
-    if (!playing || !soundOn || !audioReadyRef.current) return;
-
-    if (phase === "ringing") {
-      phaseAudioRef.current = "ringing";
-      let cancelled = false;
-      const run = async () => {
-        const ctx = await unlockDemoAudio();
-        if (!ctx || cancelled) return;
-        playRingBurst(ctx);
-      };
-      void run();
-      const id = window.setInterval(() => {
-        void run();
-      }, 2200);
-      return () => {
-        cancelled = true;
-        window.clearInterval(id);
-      };
-    }
-
-    if (phase === "pickup" && phaseAudioRef.current !== "pickup") {
-      phaseAudioRef.current = "pickup";
-      void unlockDemoAudio().then((ctx) => {
-        if (ctx) playConnectBeep(ctx);
-      });
-    }
-
-    if (phase === "talking") {
-      phaseAudioRef.current = "talking";
-    }
-  }, [phase, playing, soundOn]);
-
-  // Speak new transcript lines
-  useEffect(() => {
-    if (!playing || !soundOn) {
-      if (!playing) stopSpeech();
-      return;
-    }
-
-    if (visibleCount === 0) {
-      spokenRef.current = 0;
-      return;
-    }
-
-    if (visibleCount > spokenRef.current) {
-      const line = SCRIPT[visibleCount - 1];
-      if (line) speakLine(line.text, line.from);
-      spokenRef.current = visibleCount;
-    }
-  }, [visibleCount, playing, soundOn]);
-
-  useEffect(() => {
-    return () => stopSpeech();
-  }, []);
-
   const restart = async () => {
-    stopSpeech();
-    spokenRef.current = 0;
-    phaseAudioRef.current = null;
+    stopClip();
+    runIdRef.current += 1;
     await enableSound();
     setElapsed(0);
     setPhase("ringing");
     setVisibleCount(0);
-    setPlaying(true);
+    setLineIndex(-1);
+    setPlaying(false);
+    window.setTimeout(() => setPlaying(true), 30);
   };
 
   const togglePlay = async () => {
@@ -143,13 +200,21 @@ export function LiveDemo() {
       setPlaying(true);
       return;
     }
-    stopSpeech();
+    stopClip();
+    runIdRef.current += 1;
     setPlaying(false);
   };
 
-  const progress = Math.min(elapsed / LOOP_MS, 1);
   const statusLabel =
-    phase === "ringing" ? "RINGING" : phase === "pickup" ? "CONNECTED" : "AI_ACTIVE";
+    phase === "ringing"
+      ? "RINGING"
+      : phase === "pickup"
+        ? "CONNECTED"
+        : phase === "done"
+          ? "APPOINTMENT_BOOKED"
+          : "AI_ACTIVE";
+
+  const clock = Math.min(Math.floor(elapsed / 1000), 99);
 
   return (
     <section id="demo" className="relative py-16 md:py-24 border-t border-slate-200/70">
@@ -191,7 +256,7 @@ export function LiveDemo() {
           {soundOn && (
             <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
               <Volume2 className="w-3.5 h-3.5" />
-              Audio on
+              Human voice audio
             </span>
           )}
         </div>
@@ -228,10 +293,15 @@ export function LiveDemo() {
                     {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                   </button>
                   <div className="flex-1 h-1 rounded-full bg-white/15 overflow-hidden">
-                    <div className="h-full bg-white rounded-full" style={{ width: `${progress * 100}%` }} />
+                    <div
+                      className="h-full bg-white rounded-full transition-[width] duration-200"
+                      style={{
+                        width: `${Math.min(100, ((visibleCount + (phase === "done" ? 1 : 0)) / (SCRIPT.length + 1)) * 100)}%`,
+                      }}
+                    />
                   </div>
                   <span className="text-[10px] tabular-nums">
-                    0:{String(Math.floor((elapsed / 1000) % 60)).padStart(2, "0")}
+                    0:{String(clock).padStart(2, "0")}
                   </span>
                 </div>
               </div>
@@ -241,7 +311,7 @@ export function LiveDemo() {
                   <div className="mx-auto mb-3 h-5 w-20 rounded-full bg-zinc-900" />
                   <div className="rounded-[24px] bg-zinc-900 min-h-[310px] px-4 py-5 flex flex-col">
                     <AnimatePresence mode="wait">
-                      {phase !== "talking" ? (
+                      {phase === "ringing" || phase === "pickup" ? (
                         <motion.div
                           key={phase}
                           initial={{ opacity: 0, y: 8 }}
@@ -276,22 +346,24 @@ export function LiveDemo() {
                           </div>
                         </motion.div>
                       ) : (
-                        <motion.div key="talking" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col">
-                          <div className="mb-4">
+                        <motion.div key="talking" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col min-h-0">
+                          <div className="mb-4 shrink-0">
                             <p className="text-white text-sm font-semibold">Riya Sharma</p>
-                            <p className="text-[10px] text-emerald-400">Live with Ava · Edoply Homes</p>
+                            <p className="text-[10px] text-emerald-400">
+                              {phase === "done" ? "Call complete · booked" : "Live with Ava · Edoply Homes"}
+                            </p>
                           </div>
-                          <div className="flex-1 space-y-2.5 overflow-y-auto">
-                            {SCRIPT.slice(0, visibleCount).map((line) => (
+                          <div className="flex-1 space-y-2.5 overflow-y-auto pr-1">
+                            {SCRIPT.slice(0, visibleCount).map((line, i) => (
                               <motion.div
-                                key={line.text}
+                                key={line.audio}
                                 initial={{ opacity: 0, y: 10 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className={`max-w-[95%] rounded-2xl px-3 py-2 text-[11px] leading-relaxed ${
                                   line.from === "customer"
                                     ? "ml-auto bg-white text-slate-900"
                                     : "mr-auto bg-zinc-800 text-zinc-100 border border-white/10"
-                                }`}
+                                } ${i === lineIndex ? "ring-1 ring-emerald-400/40" : ""}`}
                               >
                                 {line.text}
                               </motion.div>
