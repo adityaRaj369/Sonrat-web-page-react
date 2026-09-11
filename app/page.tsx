@@ -10,12 +10,14 @@ import { LiveDemo } from "@/components/sections/LiveDemo";
 import { FinalCta } from "@/components/sections/FinalCta";
 import { Footer } from "@/components/layout/Footer";
 import { ContactSalesModal } from "@/components/interactive/ContactSalesModal";
+import { SiteBackdrop } from "@/components/ui/atmosphere";
 
 export default function Home() {
   const [isSalesOpen, setIsSalesOpen] = useState(false);
 
   return (
-    <div className="min-h-screen text-[#0b1220] relative selection:bg-[#163a78] selection:text-white font-sans">
+    <div className="min-h-screen text-[#050505] relative selection:bg-[#0a0a0a] selection:text-white font-sans">
+      <SiteBackdrop />
       <Navbar
         onOpenAuthModal={() => setIsSalesOpen(true)}
         onOpenDemoModal={() => setIsSalesOpen(true)}

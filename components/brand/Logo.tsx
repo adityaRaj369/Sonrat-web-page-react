@@ -38,7 +38,7 @@ export function Logo({ className = "", showText = true, size = "md", dark = fals
         alt="Sonrat"
         width={pixelSizes[size]}
         height={pixelSizes[size]}
-        className={`${markSizes[size]} rounded-[9px] object-cover ring-1 ring-black/15`}
+        className={`${markSizes[size]} rounded-[9px] object-cover`}
       />
       {showText && (
         <span className={`font-bold tracking-[-0.04em] ${textColor} ${textSizes[size]} font-display`}>

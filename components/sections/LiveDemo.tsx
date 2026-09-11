@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Pause, Play, Phone, PhoneOff, RotateCcw } from "lucide-react";
 import { StatusBadge } from "@/components/product/DashboardFrame";
+import { Atmosphere } from "@/components/ui/atmosphere";
 
 type Phase = "ringing" | "pickup" | "talking";
 
@@ -57,61 +58,55 @@ export function LiveDemo() {
     phase === "ringing" ? "RINGING" : phase === "pickup" ? "CONNECTED" : "AI_ACTIVE";
 
   return (
-    <section id="demo" className="relative py-16 md:py-24 border-t border-slate-200/70 overflow-hidden">
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(700px 320px at 80% 20%, rgba(31,138,154,0.08), transparent 60%), radial-gradient(600px 280px at 10% 80%, rgba(22,58,120,0.07), transparent 55%)",
-        }}
-      />
+    <section id="demo" className="relative py-16 md:py-24 border-t border-slate-200/70">
+      <Atmosphere variant="dense" />
       <div className="site-shell relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-5"
-          >
-            <p className="section-label mb-3">Live call path</p>
-            <h2 className="headline text-4xl sm:text-5xl lg:text-6xl mb-4 max-w-[14ch]">
-              From RINGING to APPOINTMENT_BOOKED.
-            </h2>
-            <p className="text-base sm:text-lg text-neutral-700 leading-relaxed mb-6 max-w-md font-medium">
-              Campaign dial → Ava answers as Edoply Homes → mid-call tools create the lead,
-              book the visit, and schedule a callback. Same states your dashboard records.
-            </p>
-            <div className="flex flex-wrap gap-2 mb-7">
-              {["RINGING", "CONNECTED", "AI_ACTIVE", "APPOINTMENT_BOOKED"].map((s) => (
-                <StatusBadge key={s} tone={s === "APPOINTMENT_BOOKED" ? "accent" : "outline"}>
-                  {s}
-                </StatusBadge>
-              ))}
-            </div>
-            <div className="flex flex-wrap items-center gap-3">
-              <button
-                onClick={() => setPlaying((v) => !v)}
-                className="btn-primary !py-2.5"
-              >
-                {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                {playing ? "Pause" : "Play"}
-              </button>
-              <button
-                onClick={restart}
-                className="btn-secondary !py-2.5"
-              >
-                <RotateCcw className="w-4 h-4" />
-                Replay
-              </button>
-            </div>
-          </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className="mb-8 md:mb-10 max-w-3xl"
+        >
+          <p className="section-label mb-3">Live call path</p>
+          <h2 className="headline text-3xl sm:text-4xl lg:text-[2.75rem] mb-4 leading-[1.15] tracking-[-0.02em]">
+            From RINGING to APPOINTMENT BOOKED.
+          </h2>
+          <p className="text-base sm:text-lg text-neutral-700 leading-relaxed font-medium">
+            Campaign dial → Ava answers as Edoply Homes → mid-call tools create the lead,
+            book the visit, and schedule a callback. Same states your dashboard records.
+          </p>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="lg:col-span-7"
+        <div className="flex flex-wrap items-center gap-2 mb-6">
+          {["RINGING", "CONNECTED", "AI_ACTIVE", "APPOINTMENT_BOOKED"].map((s) => (
+            <StatusBadge key={s} tone={s === "APPOINTMENT_BOOKED" ? "accent" : "outline"}>
+              {s}
+            </StatusBadge>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3 mb-8">
+          <button
+            onClick={() => setPlaying((v) => !v)}
+            className="btn-primary !py-2.5"
           >
+            {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+            {playing ? "Pause" : "Play"}
+          </button>
+          <button
+            onClick={restart}
+            className="btn-secondary !py-2.5"
+          >
+            <RotateCcw className="w-4 h-4" />
+            Replay
+          </button>
+        </div>
+
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.15 }}
+        >
             <div className="rounded-2xl border border-slate-200 bg-[#0f172a] overflow-hidden shadow-[0_24px_60px_-24px_rgba(15,23,42,0.55)]">
               <div className="grid grid-cols-1 sm:grid-cols-2 min-h-[420px]">
                 <div className="p-6 sm:p-7 border-b sm:border-b-0 sm:border-r border-white/10 flex flex-col">
@@ -192,7 +187,7 @@ export function LiveDemo() {
                               <p className="text-white text-sm font-semibold">Riya Sharma</p>
                               <p className="text-[10px] text-emerald-400">Live with Ava · Edoply Homes</p>
                             </div>
-                            <div className="flex-1 space-y-2.5 overflow-hidden">
+                            <div className="flex-1 space-y-2.5 overflow-y-auto">
                               {SCRIPT.slice(0, visibleCount).map((line) => (
                                 <motion.div
                                   key={line.text}
@@ -217,7 +212,6 @@ export function LiveDemo() {
               </div>
             </div>
           </motion.div>
-        </div>
       </div>
     </section>
   );

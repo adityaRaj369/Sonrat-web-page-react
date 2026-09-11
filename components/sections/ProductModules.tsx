@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import { BookOpen, Headphones, Languages, Megaphone, Wrench } from "lucide-react";
 import { DashboardFrame, StatusBadge } from "@/components/product/DashboardFrame";
+import { Atmosphere } from "@/components/ui/atmosphere";
 
 const AGENT_SECTIONS = [
   "General", "Company", "Products", "Knowledge", "Personality", "Voice",
@@ -15,7 +16,7 @@ const WIZARD_STEPS = ["Details", "Agent", "Phone", "Contacts", "Objective", "Rul
 export function ProductModules() {
   return (
     <section id="product-modules" className="relative py-16 md:py-24 border-t border-slate-200/70 overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none" />
+      <Atmosphere />
       <div className="site-shell relative z-10 space-y-14">
         <div className="max-w-2xl">
           <p className="section-label mb-3">Product</p>
