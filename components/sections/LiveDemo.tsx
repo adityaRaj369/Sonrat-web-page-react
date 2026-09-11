@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Pause, Play, Phone, PhoneOff, RotateCcw, Volume2 } from "lucide-react";
+import { Pause, Play, Phone, PhoneOff } from "lucide-react";
 import { StatusBadge } from "@/components/product/DashboardFrame";
 import { Atmosphere } from "@/components/ui/atmosphere";
 import {
@@ -182,18 +182,6 @@ export function LiveDemo() {
     return ctx;
   };
 
-  const restart = async () => {
-    stopClip();
-    runIdRef.current += 1;
-    await enableSound();
-    setElapsed(0);
-    setPhase("ringing");
-    setVisibleCount(0);
-    setLineIndex(-1);
-    setPlaying(false);
-    window.setTimeout(() => setPlaying(true), 30);
-  };
-
   const togglePlay = async () => {
     if (!playing) {
       await enableSound();
@@ -236,29 +224,12 @@ export function LiveDemo() {
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap items-center gap-2 mb-6">
+        <div className="flex flex-wrap items-center gap-2 mb-8">
           {["RINGING", "CONNECTED", "AI_ACTIVE", "APPOINTMENT_BOOKED"].map((s) => (
             <StatusBadge key={s} tone={s === "APPOINTMENT_BOOKED" ? "accent" : "outline"}>
               {s}
             </StatusBadge>
           ))}
-        </div>
-
-        <div className="flex flex-wrap items-center gap-3 mb-8">
-          <button onClick={togglePlay} className="btn-primary !py-2.5">
-            {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-            {playing ? "Pause" : "Play with sound"}
-          </button>
-          <button onClick={restart} className="btn-secondary !py-2.5">
-            <RotateCcw className="w-4 h-4" />
-            Replay
-          </button>
-          {soundOn && (
-            <span className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-500">
-              <Volume2 className="w-3.5 h-3.5" />
-              Human voice audio
-            </span>
-          )}
         </div>
 
         <motion.div
