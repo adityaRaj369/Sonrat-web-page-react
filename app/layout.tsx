@@ -17,32 +17,31 @@ const jetbrainsMono = JetBrains_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#050507",
+  themeColor: "#ffffff",
 };
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "SonRat AI | Enterprise AI Voice Agents",
-    template: "%s | SonRat AI",
+    default: "Sonrat — AI voice agents for sales & support calls",
+    template: "%s | Sonrat",
   },
   description:
-    "Deploy enterprise AI voice agents for customer support and sales. Connect voice automation to your data, APIs, and workflows for always-on customer conversations.",
-  applicationName: "SonRat AI",
+    "Sonrat is a multi-tenant platform for AI-powered voice sales and customer support. Train company agents, launch outbound campaigns, answer inbound calls, and review transcripts, recordings, and leads.",
+  applicationName: "Sonrat",
   category: "Artificial intelligence",
   keywords: [
     "AI voice agents",
-    "voice infrastructure",
-    "customer support AI",
-    "sales voice agent",
-    "telephony AI",
-    "autonomous reasoning",
-    "WebRTC voice",
-    "SonRat AI",
+    "outbound dialer",
+    "inbound support AI",
+    "Exotel AI calling",
+    "Hindi voice agent",
+    "sales campaign AI",
+    "Sonrat",
   ],
-  authors: [{ name: "SonRat AI Infrastructure" }],
-  creator: "SonRat AI",
-  publisher: "SonRat AI",
+  authors: [{ name: "Sonrat" }],
+  creator: "Sonrat",
+  publisher: "Sonrat",
   alternates: {
     canonical: "/",
   },
@@ -58,22 +57,25 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: "SonRat AI | Enterprise AI Voice Agents",
-    description: "AI agents that understand, decide, and act across your customer support and sales workflows.",
+    title: "Sonrat — AI voice agents for live phone calls",
+    description:
+      "Train agents on your knowledge. Dial outbound sales campaigns. Answer inbound support. Review every transcript and outcome.",
     url: "/",
-    siteName: "SonRat AI",
+    siteName: "Sonrat",
     type: "website",
-    locale: "en_US",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "SonRat AI voice agents" }],
+    locale: "en_IN",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Sonrat AI voice sales and support" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "SonRat AI | Enterprise AI Voice Infrastructure",
-    description: "AI agents that don't just talk. They understand, decide, and act.",
+    title: "Sonrat — AI voice agents for sales & support",
+    description:
+      "Train once. Call thousands. Support every inbound — with transcripts, leads, and callbacks.",
     images: ["/opengraph-image"],
   },
   icons: {
-    icon: "/icon.svg",
+    icon: "/brand/sonrat-logo.png",
+    apple: "/brand/sonrat-logo.png",
   },
   manifest: "/manifest.webmanifest",
 };
@@ -84,10 +86,16 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="scroll-smooth">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-[#050507] text-[#ededed] antialiased selection:bg-white/20 selection:text-white`}
+        className={`${inter.variable} ${jetbrainsMono.variable} font-sans bg-white text-zinc-950 antialiased selection:bg-black selection:text-white`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-full focus:bg-black focus:px-4 focus:py-2 focus:text-sm focus:text-white"
+        >
+          Skip to main content
+        </a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -96,18 +104,27 @@ export default function RootLayout({
               "@graph": [
                 {
                   "@type": "Organization",
-                  name: "SonRat AI",
+                  name: "Sonrat",
                   url: siteUrl,
-                  logo: `${siteUrl}/icon.svg`,
+                  logo: `${siteUrl}/brand/sonrat-logo.png`,
                   description:
-                    "Enterprise AI voice agents for customer support and sales teams.",
+                    "Multi-tenant AI voice platform for outbound sales campaigns and inbound customer support.",
                 },
                 {
                   "@type": "WebSite",
-                  name: "SonRat AI",
+                  name: "Sonrat",
                   url: siteUrl,
                   description:
-                    "Enterprise AI voice agent infrastructure for customer support and sales.",
+                    "AI voice agents that sell and support on live phone calls.",
+                },
+                {
+                  "@type": "SoftwareApplication",
+                  name: "Sonrat",
+                  applicationCategory: "BusinessApplication",
+                  operatingSystem: "Web",
+                  url: siteUrl,
+                  description:
+                    "Train AI voice agents, run outbound dialer campaigns, answer inbound support, and review call outcomes.",
                 },
               ],
             }),

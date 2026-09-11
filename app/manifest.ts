@@ -2,18 +2,18 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SonRat AI",
-    short_name: "SonRat AI",
-    description: "Enterprise AI voice agents for customer support and sales.",
+    name: "Sonrat",
+    short_name: "Sonrat",
+    description: "AI voice agents for outbound sales and inbound customer support.",
     start_url: "/",
     display: "standalone",
-    background_color: "#050507",
-    theme_color: "#050507",
+    background_color: "#ffffff",
+    theme_color: "#ffffff",
     icons: [
       {
-        src: "/icon.svg",
-        sizes: "any",
-        type: "image/svg+xml",
+        src: "/brand/sonrat-logo.png",
+        sizes: "512x512",
+        type: "image/png",
       },
     ],
   };

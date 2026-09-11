@@ -1,168 +1,157 @@
 "use client";
 
-import React, { useEffect, useRef } from "react";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Play, Zap, Globe2, ShieldCheck, TrendingUp } from "lucide-react";
-import { cn } from "@/lib/utils";
+import React from "react";
+import { motion } from "framer-motion";
+import { ArrowRight, BookOpen, Bot, Megaphone, PhoneCall, Users } from "lucide-react";
+import { DashboardFrame, StatusBadge } from "@/components/product/DashboardFrame";
 
 interface HeroProps {
   onOpenDemo: () => void;
-  onScrollToDemo: () => void;
+  onOpenSales?: () => void;
 }
 
-// Floating particle data
-const PARTICLES = [
-  { top: "15%", left: "8%", size: 3, delay: "0s", duration: "7s", opacity: 0.5 },
-  { top: "25%", left: "92%", size: 2, delay: "1.2s", duration: "9s", opacity: 0.4 },
-  { top: "60%", left: "5%", size: 2.5, delay: "2.5s", duration: "6s", opacity: 0.6 },
-  { top: "70%", left: "95%", size: 2, delay: "0.8s", duration: "8s", opacity: 0.3 },
-  { top: "40%", left: "3%", size: 1.5, delay: "3.2s", duration: "10s", opacity: 0.5 },
-  { top: "80%", left: "88%", size: 3.5, delay: "1.8s", duration: "7.5s", opacity: 0.4 },
-  { top: "10%", left: "75%", size: 2, delay: "0.5s", duration: "11s", opacity: 0.35 },
-  { top: "88%", left: "20%", size: 1.5, delay: "4s", duration: "6.5s", opacity: 0.45 },
-];
-
-const STATS = [
-  { icon: Zap, value: "< 240ms", label: "Voice Turnaround" },
-  { icon: TrendingUp, value: "92%+", label: "Autonomous Resolution" },
-  { icon: Globe2, value: "40+", label: "Native Languages" },
-  { icon: ShieldCheck, value: "99.995%", label: "Uptime SLA" },
-];
-
-const TRUST_LABELS = [
-  "Customer Support",
-  "Outbound & Inbound Sales",
-  "24/7 Autonomous",
-  "Multilingual Native",
-  "API-Integrated",
-  "Enterprise-Ready",
-];
-
-export function Hero({ onOpenDemo, onScrollToDemo }: HeroProps) {
+export function Hero({ onOpenDemo, onOpenSales }: HeroProps) {
   return (
-    <section className="relative pt-28 pb-8 md:pt-40 md:pb-12 lg:pt-44 lg:pb-16 overflow-hidden">
-      {/* Animated radial glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[600px] pointer-events-none -z-10">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.07)_0%,rgba(255,255,255,0.02)_40%,transparent_70%)]" />
-      </div>
+    <section className="relative pt-28 pb-14 md:pt-36 md:pb-20 overflow-hidden bg-white">
+      <div className="absolute top-16 right-[10%] w-[26rem] h-[26rem] bg-slate-100 rounded-full blur-3xl pointer-events-none -z-10" />
 
-      {/* Grid overlay with radial mask */}
-      <div className="absolute inset-0 grid-pattern [mask-image:radial-gradient(ellipse_70%_55%_at_50%_0%,#000_60%,transparent_100%)] pointer-events-none -z-10" />
+      <div className="site-shell">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
+          <div className="lg:col-span-5 flex flex-col items-start text-left">
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="inline-flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-slate-500 mb-5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+              Voice control plane
+            </motion.div>
 
-      {/* Floating particles */}
-      {PARTICLES.map((p, i) => (
-        <div
-          key={i}
-          className="absolute rounded-full bg-white pointer-events-none -z-10 float-particle"
-          style={{
-            top: p.top,
-            left: p.left,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            opacity: p.opacity,
-            "--duration": p.duration,
-            "--delay": p.delay,
-          } as React.CSSProperties}
-        />
-      ))}
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.05 }}
+              className="text-4xl sm:text-5xl lg:text-[52px] font-bold text-slate-950 tracking-[-0.035em] leading-[1.05] mb-5"
+            >
+              Train once.
+              <br />
+              Call thousands.
+              <br />
+              <span className="text-slate-500">Support every inbound.</span>
+            </motion.h1>
 
-      <div className="container-wide text-center">
-        {/* Announcement badge */}
-        <div className="inline-flex items-center gap-2 mb-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
-          <div className="flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/[0.05] border border-white/[0.1] backdrop-blur-sm">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-            </span>
-            <span className="text-xs font-mono text-zinc-200 font-medium">SonRat Engine v3.2</span>
-            <span className="w-px h-3 bg-white/20" />
-            <span className="text-xs font-mono text-zinc-400">Sub-240ms Global Audio Turnaround</span>
-          </div>
-        </div>
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="text-base sm:text-lg text-slate-500 max-w-md leading-relaxed mb-8"
+            >
+              Sonrat is the multi-tenant dashboard and voice runtime for AI sales and support calls.
+              Publish company-trained agents, run outbound campaigns, answer inbound lines, and audit
+              every transcript, recording, and lead.
+            </motion.p>
 
-        {/* Hero Headline */}
-        <div className="animate-in fade-in slide-in-from-bottom-6 duration-700 delay-100">
-          <h1 className="heading-xl text-white mb-2">
-            AI Voice Agents{" "}
-            <br className="hidden sm:block" />
-            <span className="silver-text-gradient">That Actually Work.</span>
-          </h1>
-        </div>
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="flex flex-wrap items-center gap-3 mb-8"
+            >
+              <button
+                onClick={onOpenDemo}
+                className="group inline-flex items-center gap-2 bg-[#163a78] hover:bg-[#122f61] text-white font-medium text-sm px-6 py-3.5 rounded-full transition-colors"
+              >
+                Book a demo
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
+              </button>
+              <button
+                onClick={onOpenSales}
+                className="inline-flex items-center gap-2 bg-white hover:bg-slate-50 text-slate-800 border border-slate-200 font-medium text-sm px-6 py-3.5 rounded-full"
+              >
+                Talk to sales
+              </button>
+            </motion.div>
 
-        {/* Supporting headline */}
-        <p className="mt-6 text-lg sm:text-xl md:text-2xl font-medium text-zinc-300 tracking-tight max-w-3xl mx-auto animate-in fade-in slide-in-from-bottom-6 duration-700 delay-150">
-          Talk to customers. Understand their needs.{" "}
-          <span className="text-white">Take action. Resolve issues.</span>
-        </p>
-
-        {/* Supporting paragraph */}
-        <p className="mt-4 text-sm sm:text-base md:text-lg text-zinc-500 max-w-2xl mx-auto leading-relaxed animate-in fade-in slide-in-from-bottom-6 duration-700 delay-200">
-          Deploy human-like AI voice agents that handle customer support and sales 24/7 —
-          connected directly to your company&apos;s data, APIs, and workflows.
-        </p>
-
-        {/* CTA Buttons */}
-        <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 animate-in fade-in slide-in-from-bottom-6 duration-700 delay-300">
-          <Button
-            onClick={onOpenDemo}
-            variant="silver"
-            size="lg"
-            className="w-full sm:w-auto text-sm sm:text-base group px-6 sm:px-8 relative overflow-hidden"
-          >
-            <span className="relative z-10 flex items-center gap-2">
-              Build Your AI Agent
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </span>
-          </Button>
-
-          <Button
-            onClick={onScrollToDemo}
-            variant="secondary"
-            size="lg"
-            className="w-full sm:w-auto text-sm sm:text-base group px-5 sm:px-6 text-zinc-300 hover:text-white border border-white/[0.1] hover:border-white/[0.2]"
-          >
-            <div className="w-7 h-7 rounded-full bg-white/[0.08] border border-white/[0.12] flex items-center justify-center mr-2 group-hover:bg-white/[0.14] transition-colors">
-              <Play className="w-3 h-3 fill-current text-zinc-300 group-hover:text-white ml-0.5" />
+            <div className="flex flex-wrap gap-x-5 gap-y-2 text-xs text-slate-500">
+              <span className="inline-flex items-center gap-1.5"><BookOpen className="w-3.5 h-3.5" /> Agents · knowledge · versions</span>
+              <span className="inline-flex items-center gap-1.5"><PhoneCall className="w-3.5 h-3.5" /> Campaigns + inbound</span>
+              <span className="inline-flex items-center gap-1.5"><Users className="w-3.5 h-3.5" /> Leads · callbacks · outcomes</span>
             </div>
-            See How It Works
-          </Button>
-        </div>
-
-        {/* Trust labels ticker */}
-        <div className="mt-10 overflow-hidden animate-in fade-in duration-700 delay-500">
-          <div className="flex overflow-x-auto hide-scrollbar gap-3 justify-center flex-wrap px-2">
-            {TRUST_LABELS.map((label) => (
-              <span
-                key={label}
-                className="flex items-center gap-1.5 text-[11px] font-mono uppercase tracking-widest text-zinc-500 whitespace-nowrap"
-              >
-                <span className="w-1 h-1 rounded-full bg-zinc-600" />
-                {label}
-              </span>
-            ))}
           </div>
-        </div>
 
-        {/* Stats row */}
-        <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-px bg-white/[0.06] rounded-2xl overflow-hidden border border-white/[0.08] animate-in fade-in slide-in-from-bottom-4 duration-700 delay-600 max-w-3xl mx-auto">
-          {STATS.map((stat, i) => {
-            const Icon = stat.icon;
-            return (
-              <div
-                key={stat.label}
-                className="flex flex-col items-center gap-1.5 py-5 px-3 bg-[#050507] hover:bg-white/[0.025] transition-colors"
+          <div className="lg:col-span-7">
+            <motion.div initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.12 }}>
+              <DashboardFrame
+                activeNav="Dashboard"
+                title="Dashboard"
+                description="Overview of agents, campaigns, and call activity"
               >
-                <Icon className="w-4 h-4 text-zinc-500 mb-1" />
-                <div className="text-xl sm:text-2xl font-bold text-white tracking-tight font-mono">
-                  {stat.value}
+                <div className="grid gap-2.5 grid-cols-2 xl:grid-cols-4 mb-4">
+                  {[
+                    { label: "Total calls", value: "1,284", icon: PhoneCall },
+                    { label: "Connected", value: "892", icon: PhoneCall },
+                    { label: "Leads", value: "146", icon: Users },
+                    { label: "Conversions", value: "38", icon: Megaphone },
+                  ].map((kpi) => (
+                    <div key={kpi.label} className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                      <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 mb-1">
+                        {kpi.label}
+                        <kpi.icon className="h-3.5 w-3.5" />
+                      </div>
+                      <div className="text-xl font-semibold text-slate-900 tabular-nums">{kpi.value}</div>
+                    </div>
+                  ))}
                 </div>
-                <div className="text-[10px] sm:text-xs font-mono text-zinc-500 uppercase tracking-wider text-center">
-                  {stat.label}
+
+                <div className="grid gap-3 lg:grid-cols-2 mb-3">
+                  <div className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                    <div className="text-[12px] font-semibold text-slate-900 mb-2">Recent agents</div>
+                    {[
+                      { name: "Ava", status: "PUBLISHED" },
+                      { name: "Kabir", status: "PUBLISHED" },
+                    ].map((agent) => (
+                      <div key={agent.name} className="flex items-center justify-between rounded-md border border-[#e2e8f0] px-2.5 py-2 mb-1.5 last:mb-0">
+                        <div className="flex items-center gap-2 text-[12px] font-medium text-slate-800">
+                          <Bot className="h-3.5 w-3.5 text-slate-400" />
+                          {agent.name}
+                        </div>
+                        <StatusBadge tone="success">{agent.status}</StatusBadge>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                    <div className="text-[12px] font-semibold text-slate-900 mb-2">Active campaigns</div>
+                    <div className="flex items-center justify-between rounded-md border border-[#e2e8f0] px-2.5 py-2">
+                      <div>
+                        <div className="text-[12px] font-medium text-slate-800">Edoply Weekend Visit Drive</div>
+                        <div className="text-[10px] text-slate-500">Ava · Asia/Kolkata</div>
+                      </div>
+                      <StatusBadge>RUNNING</StatusBadge>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+
+                <div className="rounded-lg border border-[#e2e8f0] bg-white p-3">
+                  <div className="text-[12px] font-semibold text-slate-900 mb-2">Recent calls</div>
+                  <div className="space-y-1.5">
+                    {[
+                      { contact: "Riya Sharma", detail: "OUTBOUND · Ava", status: "AI_ACTIVE" },
+                      { contact: "Arjun Mehta", detail: "OUTBOUND · Ava", status: "COMPLETED" },
+                      { contact: "Priya Nair", detail: "INBOUND · Kabir", status: "HUMAN_HANDOFF" },
+                    ].map((call) => (
+                      <div key={call.contact} className="flex items-center justify-between rounded-md border border-[#e2e8f0] px-2.5 py-2">
+                        <div>
+                          <div className="text-[12px] font-medium text-slate-800">{call.contact}</div>
+                          <div className="text-[10px] text-slate-500">{call.detail}</div>
+                        </div>
+                        <StatusBadge>{call.status}</StatusBadge>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </DashboardFrame>
+            </motion.div>
+          </div>
         </div>
       </div>
     </section>

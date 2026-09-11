@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "SonRat AI — Enterprise AI Voice Agents";
+export const alt = "Sonrat — AI voice agents for sales and support calls";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -10,7 +10,7 @@ export default function OpenGraphImage() {
     (
       <div
         style={{
-          background: "#050507",
+          background: "#09090b",
           color: "white",
           width: "100%",
           height: "100%",
@@ -19,20 +19,20 @@ export default function OpenGraphImage() {
           justifyContent: "center",
           padding: "80px",
           backgroundImage:
-            "radial-gradient(circle at 80% 15%, rgba(255,255,255,0.16), transparent 32%), radial-gradient(circle at 12% 88%, rgba(120,120,255,0.18), transparent 28%)",
+            "radial-gradient(circle at 85% 20%, rgba(16,185,129,0.22), transparent 30%), radial-gradient(circle at 10% 80%, rgba(255,255,255,0.08), transparent 28%)",
         }}
       >
-        <div style={{ display: "flex", fontSize: 28, letterSpacing: 8, color: "#b8b8c4" }}>
-          SONRAT AI
+        <div style={{ display: "flex", fontSize: 28, letterSpacing: 6, color: "#a1a1aa" }}>
+          SONRAT
         </div>
-        <div style={{ display: "flex", marginTop: 28, fontSize: 76, fontWeight: 700, letterSpacing: -3 }}>
-          AI Voice Agents
+        <div style={{ display: "flex", marginTop: 28, fontSize: 68, fontWeight: 700, letterSpacing: -2 }}>
+          Train once. Call thousands.
         </div>
-        <div style={{ display: "flex", marginTop: 6, fontSize: 76, fontWeight: 700, letterSpacing: -3, color: "#c9c9d5" }}>
-          That Actually Work.
+        <div style={{ display: "flex", marginTop: 8, fontSize: 68, fontWeight: 700, letterSpacing: -2, color: "#d4d4d8" }}>
+          Support every inbound.
         </div>
-        <div style={{ display: "flex", marginTop: 36, fontSize: 30, color: "#b8b8c4" }}>
-          Customer support and sales automation for enterprise teams.
+        <div style={{ display: "flex", marginTop: 36, fontSize: 28, color: "#a1a1aa" }}>
+          AI voice agents for outbound sales and inbound support calls.
         </div>
       </div>
     ),
