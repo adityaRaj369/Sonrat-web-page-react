@@ -9,7 +9,7 @@ const NODES = [
   { id: "agent", label: "Agent + Version", x: 28, y: 22 },
   { id: "campaign", label: "Campaign / Inbound", x: 50, y: 42 },
   { id: "exotel", label: "Exotel", x: 72, y: 22 },
-  { id: "gemini", label: "Gemini Live", x: 72, y: 62 },
+  { id: "llm", label: "Voice LLM", x: 72, y: 62 },
   { id: "tools", label: "Tools · Leads · QA", x: 92, y: 42 },
 ];
 
@@ -123,7 +123,7 @@ export function Architecture() {
           <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3">
             {[
               { title: "Control plane", body: "Agents, campaigns, support, analytics, settings" },
-              { title: "Runtime plane", body: "Exotel streaming + Gemini Live realtime audio" },
+              { title: "Runtime plane", body: "Exotel streaming + realtime voice LLM audio" },
               { title: "Outcomes", body: "Transcripts, recordings, leads, callbacks, handoffs" },
             ].map((item) => (
               <div key={item.title} className="rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3">
