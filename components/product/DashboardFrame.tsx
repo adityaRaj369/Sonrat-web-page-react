@@ -39,7 +39,7 @@ export function DashboardFrame({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-[#e2e8f0] bg-[#f7f9fb] shadow-[0_1px_2px_rgba(15,23,42,0.04),0_12px_40px_-20px_rgba(15,23,42,0.35)] overflow-hidden ${className}`}
+      className={`rounded-2xl border border-[#d7e0ec] bg-[#f7f9fb]/95 shadow-[0_1px_0_rgba(255,255,255,0.85)_inset,0_24px_60px_-28px_rgba(15,23,42,0.4)] overflow-hidden backdrop-blur-sm ${className}`}
     >
       <div className="flex min-h-[380px]">
         <aside className="hidden sm:flex w-[200px] shrink-0 flex-col border-r border-[#e2e8f0] bg-white">

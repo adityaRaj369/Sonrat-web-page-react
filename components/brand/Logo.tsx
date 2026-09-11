@@ -18,9 +18,9 @@ export function Logo({ className = "", showText = true, size = "md", dark = fals
   };
 
   const textSizes = {
-    sm: "text-base",
-    md: "text-lg",
-    lg: "text-xl",
+    sm: "text-lg",
+    md: "text-xl",
+    lg: "text-2xl",
   };
 
   const pixelSizes = {
@@ -29,7 +29,7 @@ export function Logo({ className = "", showText = true, size = "md", dark = fals
     lg: 40,
   };
 
-  const textColor = dark ? "text-white" : "text-gray-950";
+  const textColor = dark ? "text-white" : "text-[#050505]";
 
   return (
     <div className={`flex items-center gap-2.5 select-none ${className}`}>
@@ -38,10 +38,10 @@ export function Logo({ className = "", showText = true, size = "md", dark = fals
         alt="Sonrat"
         width={pixelSizes[size]}
         height={pixelSizes[size]}
-        className={`${markSizes[size]} rounded-[9px] object-cover shadow-sm ring-1 ring-black/10`}
+        className={`${markSizes[size]} rounded-[9px] object-cover ring-1 ring-black/15`}
       />
       {showText && (
-        <span className={`font-bold tracking-tight ${textColor} ${textSizes[size]} font-sans`}>
+        <span className={`font-bold tracking-[-0.04em] ${textColor} ${textSizes[size]} font-display`}>
           Sonrat
         </span>
       )}

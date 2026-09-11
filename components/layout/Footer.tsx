@@ -20,16 +20,15 @@ export function Footer() {
   };
 
   return (
-    <footer id="resources" className="bg-white border-t border-gray-100 pt-16 pb-12">
+    <footer id="resources" className="border-t border-slate-200/80 pt-16 pb-12 bg-white/50 backdrop-blur-sm">
       <div className="site-shell">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-gray-100">
-          {/* Brand Col */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-8 pb-14 border-b border-slate-200/80">
           <div className="lg:col-span-4 flex flex-col items-start">
             <Link href="/" className="mb-3">
               <Logo size="md" />
             </Link>
-            <p className="text-xs text-gray-400 max-w-xs leading-relaxed">
-              AI voice agents for sales and support calls.
+            <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
+              AI voice agents for outbound sales and inbound support calls.
             </p>
           </div>
 

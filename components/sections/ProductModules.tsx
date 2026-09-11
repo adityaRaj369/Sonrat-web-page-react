@@ -14,34 +14,32 @@ const WIZARD_STEPS = ["Details", "Agent", "Phone", "Contacts", "Objective", "Rul
 
 export function ProductModules() {
   return (
-    <section id="product-modules" className="py-16 md:py-24 bg-white border-t border-slate-100">
-      <div className="site-shell space-y-14">
+    <section id="product-modules" className="relative py-16 md:py-24 border-t border-slate-200/70 overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/40 to-transparent pointer-events-none" />
+      <div className="site-shell relative z-10 space-y-14">
         <div className="max-w-2xl">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-3">
-            Product
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-950 tracking-tight mb-3">
+          <p className="section-label mb-3">Product</p>
+          <h2 className="headline text-4xl sm:text-5xl lg:text-6xl mb-4 max-w-[16ch]">
             The same control plane your team will live in.
           </h2>
-          <p className="text-sm sm:text-base text-slate-500 leading-relaxed">
-            Agents, campaigns, inbound support, transcripts, and outcomes — modeled after the real Sonrat dashboard,
-            not a stock photo of a headset.
+          <p className="text-base sm:text-lg text-neutral-700 leading-relaxed font-medium max-w-xl">
+            Agents, campaigns, inbound support, transcripts, and outcomes — modeled after the real Sonrat dashboard.
           </p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="mb-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#163a78] text-white flex items-center justify-center shrink-0">
-                <BookOpen className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-950">Train & publish agents</h3>
-                <p className="text-sm text-slate-500 mt-1">
-                  Sectioned builder for company knowledge, products, languages, sales/support behavior, safety, and tools.
-                  Publish creates an immutable version used on live calls.
-                </p>
-              </div>
+                <div className="w-9 h-9 rounded-lg bg-[#050505] text-white flex items-center justify-center shrink-0">
+                  <BookOpen className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="headline text-2xl mb-1">Train & publish agents</h3>
+                  <p className="text-sm text-neutral-700 mt-1 font-medium">
+                    Sectioned builder for company knowledge, products, languages, sales/support behavior, safety, and tools.
+                    Publish creates an immutable version used on live calls.
+                  </p>
+                </div>
             </div>
             <DashboardFrame activeNav="Agents" title="Ava" description="Edoply Homes outbound sales agent (EN/HI)">
               <div className="flex flex-wrap gap-1.5 mb-3">
@@ -50,8 +48,8 @@ export function ProductModules() {
                     key={section}
                     className={`rounded-md px-2 py-1 text-[10px] font-medium border ${
                       i === 3
-                        ? "bg-[#163a78] text-white border-[#163a78]"
-                        : "bg-white text-slate-600 border-slate-200"
+                        ? "bg-[#050505] text-white border-[#050505]"
+                        : "bg-white text-neutral-700 border-neutral-200"
                     }`}
                   >
                     {section}
@@ -76,15 +74,15 @@ export function ProductModules() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}>
             <div className="mb-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#163a78] text-white flex items-center justify-center shrink-0">
-                <Megaphone className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-950">Outbound sales campaigns</h3>
-                <p className="text-sm text-slate-500 mt-1">
-                  Seven-step wizard: pick agent, phone, contacts, objective, and calling rules. Import CSV/Excel and dial in Asia/Kolkata hours.
-                </p>
-              </div>
+                <div className="w-9 h-9 rounded-lg bg-[#050505] text-white flex items-center justify-center shrink-0">
+                  <Megaphone className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="headline text-2xl mb-1">Outbound sales campaigns</h3>
+                  <p className="text-sm text-neutral-700 mt-1 font-medium">
+                    Seven-step wizard: pick agent, phone, contacts, objective, and calling rules. Import CSV/Excel and dial in Asia/Kolkata hours.
+                  </p>
+                </div>
             </div>
             <DashboardFrame activeNav="Sales" title="Create campaign" description="Edoply Weekend Visit Drive">
               <div className="flex flex-wrap gap-1.5 mb-4">
@@ -93,10 +91,10 @@ export function ProductModules() {
                     key={step}
                     className={`rounded-md px-2.5 py-1 text-[10px] font-medium ${
                       i <= 3
-                        ? "bg-[#163a78] text-white"
+                        ? "bg-[#050505] text-white"
                         : i === 4
-                          ? "bg-slate-200 text-slate-800"
-                          : "bg-slate-100 text-slate-500"
+                          ? "bg-neutral-300 text-neutral-900"
+                          : "bg-neutral-100 text-neutral-500"
                     }`}
                   >
                     {step}
@@ -117,15 +115,15 @@ export function ProductModules() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <div className="mb-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#163a78] text-white flex items-center justify-center shrink-0">
-                <Headphones className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-950">Inbound customer support</h3>
-                <p className="text-sm text-slate-500 mt-1">
-                  Bind a number to a published Support agent. Inbound callers appear with full transcripts and outcomes.
-                </p>
-              </div>
+                <div className="w-9 h-9 rounded-lg bg-[#050505] text-white flex items-center justify-center shrink-0">
+                  <Headphones className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="headline text-2xl mb-1">Inbound customer support</h3>
+                  <p className="text-sm text-neutral-700 mt-1 font-medium">
+                    Bind a number to a published Support agent. Inbound callers appear with full transcripts and outcomes.
+                  </p>
+                </div>
             </div>
             <DashboardFrame
               activeNav="Customer Support"
@@ -157,15 +155,15 @@ export function ProductModules() {
 
           <motion.div initial={{ opacity: 0, y: 16 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.08 }}>
             <div className="mb-4 flex items-start gap-3">
-              <div className="w-9 h-9 rounded-lg bg-[#163a78] text-white flex items-center justify-center shrink-0">
-                <Wrench className="w-4 h-4" />
-              </div>
-              <div>
-                <h3 className="text-lg font-semibold text-slate-950">Call detail · transcript & outcome</h3>
-                <p className="text-sm text-slate-500 mt-1">
-                  Timeline, transcript, recording, and structured outcome — interest, next action, callback, handoff.
-                </p>
-              </div>
+                <div className="w-9 h-9 rounded-lg bg-[#050505] text-white flex items-center justify-center shrink-0">
+                  <Wrench className="w-4 h-4" />
+                </div>
+                <div>
+                  <h3 className="headline text-2xl mb-1">Call detail · transcript & outcome</h3>
+                  <p className="text-sm text-neutral-700 mt-1 font-medium">
+                    Timeline, transcript, recording, and structured outcome — interest, next action, callback, handoff.
+                  </p>
+                </div>
             </div>
             <DashboardFrame activeNav="Sales" title="Riya Sharma" description="OUTBOUND · just now">
               <div className="flex flex-wrap gap-1.5 mb-3">
@@ -257,8 +255,8 @@ function Feature({
           <Icon className="w-4 h-4 text-slate-800" />
         </div>
         <div>
-          <h3 className="text-base font-semibold text-slate-950 mb-1">{title}</h3>
-          <p className="text-sm text-slate-500 leading-relaxed">{body}</p>
+          <h3 className="headline text-xl mb-1">{title}</h3>
+          <p className="text-sm text-neutral-700 leading-relaxed font-medium">{body}</p>
         </div>
       </div>
     </div>

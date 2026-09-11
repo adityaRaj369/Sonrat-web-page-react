@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/layout/Navbar";
 import { Hero } from "@/components/sections/Hero";
+import { Architecture } from "@/components/sections/Architecture";
 import { HowItWorks } from "@/components/sections/HowItWorks";
 import { ProductModules } from "@/components/sections/ProductModules";
 import { LiveDemo } from "@/components/sections/LiveDemo";
@@ -14,7 +15,7 @@ export default function Home() {
   const [isSalesOpen, setIsSalesOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-white text-zinc-950 relative selection:bg-black selection:text-white font-sans">
+    <div className="min-h-screen text-[#0b1220] relative selection:bg-[#163a78] selection:text-white font-sans">
       <Navbar
         onOpenAuthModal={() => setIsSalesOpen(true)}
         onOpenDemoModal={() => setIsSalesOpen(true)}
@@ -28,6 +29,7 @@ export default function Home() {
           />
         </section>
 
+        <Architecture />
         <HowItWorks />
         <ProductModules />
         <LiveDemo />

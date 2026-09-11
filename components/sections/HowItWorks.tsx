@@ -2,43 +2,43 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { BookOpen, Megaphone, FileSearch } from "lucide-react";
+import { BookOpen, FileSearch, Megaphone } from "lucide-react";
+import { Atmosphere } from "@/components/ui/atmosphere";
 
 export function HowItWorks() {
   const steps = [
     {
       num: "01",
       title: "Train your agent",
-      desc: "Add company info, products, FAQs, and documents. Set personality, languages, sales or support behavior, and safety rails.",
+      desc: "Company info, products, FAQs, documents, personality, languages, sales or support behavior, and safety rails.",
       icon: BookOpen,
     },
     {
       num: "02",
       title: "Launch calls",
-      desc: "Run outbound dialer campaigns with contact import, calling hours, and retries — or bind a number so AI answers inbound support.",
+      desc: "Outbound dialer campaigns with contact import and calling rules — or bind a number so AI answers inbound support.",
       icon: Megaphone,
     },
     {
       num: "03",
       title: "Review outcomes",
-      desc: "Every call leaves a transcript, recording, structured outcome, lead or callback — ready for your team to act.",
+      desc: "Transcripts, recordings, structured outcomes, leads, and callbacks — ready for your team to act.",
       icon: FileSearch,
     },
   ];
 
   return (
-    <section id="how-it-works" className="py-16 md:py-24 bg-white border-t border-zinc-100">
-      <div className="site-shell">
+    <section id="how-it-works" className="relative py-16 md:py-24 border-t border-slate-200/70 overflow-hidden">
+      <Atmosphere />
+      <div className="site-shell relative z-10">
         <div className="max-w-2xl mb-12">
-          <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-zinc-400 mb-3">
-            How Sonrat works
-          </p>
-          <h2 className="text-3xl sm:text-4xl font-bold text-zinc-950 tracking-tight mb-3">
+          <p className="section-label mb-3">How Sonrat works</p>
+          <h2 className="headline text-4xl sm:text-5xl lg:text-6xl mb-4 max-w-[14ch]">
             From knowledge to live phone calls.
           </h2>
-          <p className="text-sm sm:text-base text-zinc-500 leading-relaxed">
+          <p className="text-base sm:text-lg text-neutral-700 leading-relaxed font-medium max-w-xl">
             Configure agents in the Sonrat control plane, dial or answer through telephony,
-            and keep every conversation auditable — the same loop as the production dashboard.
+            and keep every conversation auditable.
           </p>
         </div>
 
@@ -48,20 +48,23 @@ export function HowItWorks() {
             return (
               <motion.div
                 key={step.num}
-                initial={{ opacity: 0, y: 18 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.45, delay: idx * 0.08 }}
-                className="rounded-2xl border border-zinc-200 bg-zinc-50/60 p-6 hover:bg-white hover:shadow-sm transition-all"
+                whileHover={{ y: -4 }}
+                className="panel rounded-[24px] p-6"
               >
-                <div className="flex items-center justify-between mb-5">
-                  <div className="w-10 h-10 rounded-xl bg-white border border-zinc-200 flex items-center justify-center text-zinc-900">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-11 h-11 rounded-2xl bg-[#050505] text-white flex items-center justify-center">
                     <Icon className="w-5 h-5" />
                   </div>
-                  <span className="text-xs font-mono text-zinc-400">{step.num}</span>
+                  <span className="text-xs font-mono text-slate-400">{step.num}</span>
                 </div>
-                <h3 className="text-lg font-semibold text-zinc-950 mb-2 tracking-tight">{step.title}</h3>
-                <p className="text-sm text-zinc-500 leading-relaxed">{step.desc}</p>
+                <h3 className="headline text-2xl mb-2 tracking-tight">
+                  {step.title}
+                </h3>
+                <p className="text-sm text-neutral-700 leading-relaxed font-medium">{step.desc}</p>
               </motion.div>
             );
           })}

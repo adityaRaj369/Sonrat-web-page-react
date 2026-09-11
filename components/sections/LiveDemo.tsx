@@ -57,8 +57,15 @@ export function LiveDemo() {
     phase === "ringing" ? "RINGING" : phase === "pickup" ? "CONNECTED" : "AI_ACTIVE";
 
   return (
-    <section id="demo" className="py-16 md:py-24 bg-white border-t border-slate-100">
-      <div className="site-shell">
+    <section id="demo" className="relative py-16 md:py-24 border-t border-slate-200/70 overflow-hidden">
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(700px 320px at 80% 20%, rgba(31,138,154,0.08), transparent 60%), radial-gradient(600px 280px at 10% 80%, rgba(22,58,120,0.07), transparent 55%)",
+        }}
+      />
+      <div className="site-shell relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           <motion.div
             initial={{ opacity: 0, y: 16 }}
@@ -66,13 +73,11 @@ export function LiveDemo() {
             viewport={{ once: true }}
             className="lg:col-span-5"
           >
-            <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-3">
-              Live call path
-            </p>
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-950 tracking-tight leading-tight mb-4">
+            <p className="section-label mb-3">Live call path</p>
+            <h2 className="headline text-4xl sm:text-5xl lg:text-6xl mb-4 max-w-[14ch]">
               From RINGING to APPOINTMENT_BOOKED.
             </h2>
-            <p className="text-sm sm:text-base text-slate-500 leading-relaxed mb-6 max-w-md">
+            <p className="text-base sm:text-lg text-neutral-700 leading-relaxed mb-6 max-w-md font-medium">
               Campaign dial → Ava answers as Edoply Homes → mid-call tools create the lead,
               book the visit, and schedule a callback. Same states your dashboard records.
             </p>
@@ -86,14 +91,14 @@ export function LiveDemo() {
             <div className="flex flex-wrap items-center gap-3">
               <button
                 onClick={() => setPlaying((v) => !v)}
-                className="inline-flex items-center gap-2 bg-[#163a78] text-white text-sm font-medium px-5 py-2.5 rounded-full hover:bg-[#122f61]"
+                className="btn-primary !py-2.5"
               >
                 {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
                 {playing ? "Pause" : "Play"}
               </button>
               <button
                 onClick={restart}
-                className="inline-flex items-center gap-2 text-sm font-medium text-slate-700 px-4 py-2.5 rounded-full border border-slate-200 hover:bg-slate-50"
+                className="btn-secondary !py-2.5"
               >
                 <RotateCcw className="w-4 h-4" />
                 Replay
