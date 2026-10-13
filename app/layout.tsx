@@ -29,17 +29,19 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Sonrat — AI voice agents for sales & support calls",
+    default: "Sonrat — AI voice workspace for orders, support, and sales",
     template: "%s | Sonrat",
   },
   description:
-    "Sonrat is a multi-tenant platform for AI-powered voice sales and customer support. Train company agents, launch outbound campaigns, answer inbound calls, and review transcripts, recordings, and leads.",
+    "Sonrat is an AI voice workspace in build phase for company agents, phone orders, support tickets, outbound campaigns, transcripts, recordings, and business outcomes.",
   applicationName: "Sonrat",
   category: "Artificial intelligence",
   keywords: [
     "AI voice agents",
     "outbound dialer",
     "inbound support AI",
+    "AI phone orders",
+    "AI support tickets",
     "Exotel AI calling",
     "Hindi voice agent",
     "sales campaign AI",
@@ -65,18 +67,18 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Sonrat — AI voice agents for live phone calls",
     description:
-      "Train agents on your knowledge. Dial outbound sales campaigns. Answer inbound support. Review every transcript and outcome.",
+      "Development preview of Sonrat: company-trained voice agents for orders, support tickets, sales follow-up, transcripts, recordings, and admin controls.",
     url: "/",
     siteName: "Sonrat",
     type: "website",
     locale: "en_IN",
-    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Sonrat AI voice sales and support" }],
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "Sonrat AI voice workspace preview" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Sonrat — AI voice agents for sales & support",
+    title: "Sonrat — AI voice workspace preview",
     description:
-      "Train once. Call thousands. Support every inbound — with transcripts, leads, and callbacks.",
+      "In-build preview for voice agents, phone orders, support tickets, sales follow-up, and dashboard records.",
     images: ["/opengraph-image"],
   },
   icons: {
@@ -114,7 +116,7 @@ export default function RootLayout({
                   url: siteUrl,
                   logo: `${siteUrl}/brand/sonrat-logo.png`,
                   description:
-                    "Multi-tenant AI voice platform for outbound sales campaigns and inbound customer support.",
+                    "AI voice workspace in build phase for company agents, orders, support tickets, sales follow-up, and call evidence.",
                 },
                 {
                   "@type": "WebSite",

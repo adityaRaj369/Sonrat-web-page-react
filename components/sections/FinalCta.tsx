@@ -1,68 +1,69 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Mail } from "lucide-react";
 
 interface FinalCtaProps {
   onOpenDemo?: () => void;
-  onOpenContact?: () => void;
 }
 
-export function FinalCta({ onOpenDemo, onOpenContact }: FinalCtaProps) {
+export function FinalCta({ onOpenDemo }: FinalCtaProps) {
   return (
     <section id="pricing" className="py-16 sm:py-24 relative overflow-hidden">
       <div className="site-shell">
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="panel-dark relative rounded-[28px] p-8 sm:p-12 lg:p-14 overflow-hidden"
-        >
-          <div className="absolute inset-0 opacity-40 pointer-events-none"
+        <div className="relative rounded-[24px] sm:rounded-[32px] border border-slate-200/90 bg-white shadow-[0_20px_60px_-20px_rgba(15,23,42,0.1)] p-8 sm:p-12 lg:p-14 overflow-hidden">
+          {/* Subtle background glow matching light theme */}
+          <div
+            className="absolute inset-0 opacity-40 pointer-events-none"
             style={{
               backgroundImage:
-                "radial-gradient(circle at 20% 20%, rgba(31,138,154,0.28), transparent 35%), radial-gradient(circle at 80% 80%, rgba(22,58,120,0.35), transparent 40%)",
+                "radial-gradient(circle at 10% 20%, rgba(241,245,249,0.9), transparent 45%), radial-gradient(circle at 90% 80%, rgba(226,232,240,0.6), transparent 50%)",
             }}
           />
           <div
-            className="absolute inset-0 opacity-[0.07] pointer-events-none"
+            className="absolute inset-0 opacity-[0.04] pointer-events-none"
             style={{
               backgroundImage:
-                "linear-gradient(to right, white 1px, transparent 1px), linear-gradient(to bottom, white 1px, transparent 1px)",
-              backgroundSize: "48px 48px",
+                "linear-gradient(to right, #0f172a 1px, transparent 1px), linear-gradient(to bottom, #0f172a 1px, transparent 1px)",
+              backgroundSize: "40px 40px",
             }}
           />
+
           <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
             <div className="max-w-2xl">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-400 mb-3">
+              <span className="inline-flex items-center gap-2 rounded-full bg-slate-100 border border-slate-200/80 px-3 py-1 text-xs font-semibold text-slate-700 mb-3.5">
                 Get started
-              </p>
-              <h2 className="headline text-4xl sm:text-5xl text-white tracking-tight leading-[1.02] mb-4">
-                Ready to put AI on your sales and support lines?
+              </span>
+
+              <h2 className="headline text-3xl sm:text-4xl lg:text-5xl text-slate-950 tracking-tight leading-[1.08] mb-4">
+                Sonrat is still being built.
               </h2>
-              <p className="text-sm text-slate-400 leading-relaxed max-w-lg">
-                Train a Sonrat agent on your company knowledge, launch campaigns or inbound numbers,
-                and review every call outcome in one dashboard.
+
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed max-w-xl">
+                The dashboard, voice workflows, and demo video on this page are a product preview.
+                Public launch, demo booking, and onboarding will open only after the build is ready.
               </p>
             </div>
-            <div className="flex flex-wrap items-center gap-3 shrink-0">
+
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
               <button
                 onClick={onOpenDemo}
-                className="group inline-flex items-center gap-2 bg-white hover:bg-slate-100 text-slate-950 font-semibold text-sm px-6 py-3.5 rounded-full"
+                className="group inline-flex items-center justify-center gap-2 bg-[#050505] hover:bg-zinc-800 text-white font-semibold text-sm px-6 py-3.5 rounded-full transition-colors shadow-sm"
               >
-                Book a demo
+                Demo booking upcoming
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </button>
-              <button
-                onClick={onOpenContact}
-                className="inline-flex items-center gap-2 text-white/80 hover:text-white font-medium text-sm px-5 py-3.5 rounded-full hover:bg-white/5 border border-white/10"
+
+              <a
+                href="mailto:support@sonrat.com"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-800 text-sm font-semibold px-5 py-3.5 transition-colors"
               >
-                Talk to sales
-              </button>
+                <Mail className="w-4 h-4 text-slate-500" />
+                support@sonrat.com
+              </a>
             </div>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

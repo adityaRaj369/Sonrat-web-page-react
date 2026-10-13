@@ -48,6 +48,11 @@ body {
   min-width: 320px;
 }
 
+img,
+video {
+  max-width: 100%;
+}
+
 .site-shell {
   width: 100%;
   max-width: 1480px;

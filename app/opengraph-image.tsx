@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Sonrat — AI voice agents for sales and support calls";
+export const alt = "Sonrat — AI voice workspace preview";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -26,13 +26,13 @@ export default function OpenGraphImage() {
           SONRAT
         </div>
         <div style={{ display: "flex", marginTop: 28, fontSize: 68, fontWeight: 700, letterSpacing: -2 }}>
-          Train once. Call thousands.
+          Voice agents for orders,
         </div>
         <div style={{ display: "flex", marginTop: 8, fontSize: 68, fontWeight: 700, letterSpacing: -2, color: "#d4d4d8" }}>
-          Support every inbound.
+          support, and sales.
         </div>
         <div style={{ display: "flex", marginTop: 36, fontSize: 28, color: "#a1a1aa" }}>
-          AI voice agents for outbound sales and inbound support calls.
+          In-build dashboard preview for real business workflows.
         </div>
       </div>
     ),

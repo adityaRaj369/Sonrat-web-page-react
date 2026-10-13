@@ -9,56 +9,56 @@ const LANGUAGES = [
   {
     id: "en",
     label: "English",
-    agent: "Ava · Support",
+    agent: "Sonrat · Support",
     lines: [
-      { from: "customer", text: "Hi, my site visit got cancelled. Can you reschedule?" },
-      { from: "agent", text: "Of course. I can move you to Sunday 11 AM at Skyline Residences. Shall I confirm?" },
-      { from: "customer", text: "Yes please — and send the location on WhatsApp." },
-      { from: "agent", text: "Done. Appointment updated, WhatsApp pin sent, and a confirmation SMS is on the way." },
+      { from: "customer", text: "Hi, my refund is still pending after the payment failed." },
+      { from: "agent", text: "I understand. I can create a refund complaint and mark it high priority." },
+      { from: "customer", text: "Please do that. It has already been five days." },
+      { from: "agent", text: "Done. The ticket is saved with the call details and next-step notes." },
     ],
   },
   {
     id: "hi",
     label: "Hindi",
-    agent: "Ava · Support",
+    agent: "Sonrat · Support",
     lines: [
-      { from: "customer", text: "Namaste, mera site visit cancel ho gaya. Reschedule kar sakte ho?" },
-      { from: "agent", text: "Bilkul. Sunday 11 AM Skyline Residences pe shift kar deti hoon — confirm karoon?" },
-      { from: "customer", text: "Haan please, aur location WhatsApp pe bhej dena." },
-      { from: "agent", text: "Ho gaya. Appointment update, WhatsApp pin, aur confirmation SMS bhej diya." },
+      { from: "customer", text: "Namaste, mera refund abhi tak nahi aaya." },
+      { from: "agent", text: "Samajh gaya. Main refund complaint high priority par create kar raha hoon." },
+      { from: "customer", text: "Please, payment fail hua tha aur paise cut ho gaye." },
+      { from: "agent", text: "Ticket save ho gaya. Team ko payment refund details ke saath follow-up milega." },
     ],
   },
   {
     id: "ta",
     label: "Tamil",
-    agent: "Kabir · Support",
+    agent: "Sonrat · Support",
     lines: [
-      { from: "customer", text: "Vanakkam, en site visit cancel aagiruchu. Reschedule panna mudiyuma?" },
-      { from: "agent", text: "Sure. Sunday 11 AM Skyline Residences ku shift pannalam — confirm pannattuma?" },
-      { from: "customer", text: "Aama please, location WhatsApp la anupunga." },
-      { from: "agent", text: "Aachu. Appointment update, WhatsApp pin, confirmation SMS anupi vechirukken." },
+      { from: "customer", text: "Vanakkam, refund innum varala." },
+      { from: "agent", text: "Purinjuthu. Refund complaint ticket create pannuren." },
+      { from: "customer", text: "Payment fail aachu, aana amount deduct aayiduchu." },
+      { from: "agent", text: "Ticket save aagiduchu. Support team evidence oda follow up pannum." },
     ],
   },
   {
     id: "te",
     label: "Telugu",
-    agent: "Kabir · Support",
+    agent: "Sonrat · Support",
     lines: [
-      { from: "customer", text: "Namaskaram, naa site visit cancel ayyindi. Reschedule cheyavacha?" },
-      { from: "agent", text: "Avunu. Sunday 11 AM Skyline Residences ki shift chestha — confirm cheyyana?" },
-      { from: "customer", text: "Please, location WhatsApp lo pampandi." },
-      { from: "agent", text: "Ayipoyindi. Appointment update, WhatsApp pin, confirmation SMS pampanu." },
+      { from: "customer", text: "Namaskaram, refund inka raledu." },
+      { from: "agent", text: "Ardham ayindi. Refund complaint ticket create chesthanu." },
+      { from: "customer", text: "Payment fail ayyindi, kani amount deduct ayyindi." },
+      { from: "agent", text: "Ticket save ayyindi. Support team payment evidence tho follow up chestundi." },
     ],
   },
   {
     id: "kn",
     label: "Kannada",
-    agent: "Ava · Support",
+    agent: "Sonrat · Support",
     lines: [
-      { from: "customer", text: "Namaskara, nanna site visit cancel aagide. Reschedule madbahuda?" },
-      { from: "agent", text: "Sure. Sunday 11 AM Skyline Residences ge shift madona — confirm madona?" },
-      { from: "customer", text: "Please, location WhatsApp ge kalusi." },
-      { from: "agent", text: "Aaytu. Appointment update, WhatsApp pin, confirmation SMS kaloside." },
+      { from: "customer", text: "Namaskara, refund innu bandilla." },
+      { from: "agent", text: "Artha aaytu. Refund complaint ticket create madthini." },
+      { from: "customer", text: "Payment fail aagide, aadre amount cut aagide." },
+      { from: "agent", text: "Ticket save aagide. Support team evidence jothe follow up madutte." },
     ],
   },
 ];
@@ -203,7 +203,7 @@ export function Coverage() {
                   <p className={`text-[10px] uppercase tracking-[0.18em] mb-1 ${isNight ? "text-slate-400" : "text-slate-400"}`}>
                     Asia/Kolkata
                   </p>
-                  <p className="headline text-3xl sm:text-4xl tabular-nums tracking-tight">
+                  <p suppressHydrationWarning className="headline text-3xl sm:text-4xl tabular-nums tracking-tight">
                     {formatKolkata(now)}
                   </p>
                 </div>
@@ -221,7 +221,7 @@ export function Coverage() {
                 <div className="flex items-center gap-3">
                   <PhoneIncoming className={`w-4 h-4 shrink-0 ${isNight ? "text-slate-300" : "text-slate-600"}`} />
                   <span className={isNight ? "text-slate-200" : "text-slate-700"}>
-                    Edoply Support Line answering now
+                    Support line answering preview
                   </span>
                 </div>
                 <div className="flex items-center gap-3">

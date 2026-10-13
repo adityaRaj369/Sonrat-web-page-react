@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Logo } from "@/components/brand/Logo";
 import { FOOTER_COLUMNS } from "@/data/navigation";
-import { ArrowRight, Linkedin, Youtube } from "lucide-react";
+import { ArrowRight, Linkedin, Mail, Youtube } from "lucide-react";
 
 export function Footer() {
   const [email, setEmail] = useState("");
@@ -27,9 +27,19 @@ export function Footer() {
             <Link href="/" className="mb-3">
               <Logo size="md" />
             </Link>
-            <p className="text-xs text-slate-500 max-w-xs leading-relaxed">
-              AI voice agents for outbound sales and inbound support calls.
+            <p className="text-xs text-slate-500 max-w-xs leading-relaxed mb-4">
+              AI voice workspace for orders, support tickets, outbound campaigns, and company knowledge.
             </p>
+            <div className="inline-flex items-center gap-2 rounded-xl bg-white border border-slate-200 px-3 py-1.5 text-xs shadow-sm">
+              <Mail className="w-3.5 h-3.5 text-slate-500" />
+              <span className="text-slate-400 font-medium">Contact:</span>
+              <a
+                href="mailto:support@sonrat.com"
+                className="font-semibold text-slate-900 hover:text-[#163a78] transition-colors"
+              >
+                support@sonrat.com
+              </a>
+            </div>
           </div>
 
           {/* Links Columns (Product, Resources, Company) */}
@@ -84,39 +94,37 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Bottom copyright and social */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-400">
+        {/* Bottom copyright and prominent social links */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <div>
             © 2026 Sonrat. All rights reserved.
           </div>
 
-          <div className="flex items-center gap-5">
+          <div className="flex items-center gap-4 sm:gap-6">
             <a
-              href="https://linkedin.com"
+              href="https://linkedin.com/company/108078956/"
               target="_blank"
               rel="noreferrer"
-              className="text-gray-400 hover:text-gray-900 transition-colors"
-              aria-label="LinkedIn"
+              aria-label="LinkedIn Profile"
+              className="group inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#0a66c2] transition-colors"
             >
-              <Linkedin className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-full bg-white border border-slate-200/90 shadow-sm flex items-center justify-center group-hover:border-[#0a66c2]/40 group-hover:bg-[#0a66c2]/10 transition-colors">
+                <Linkedin className="w-5 h-5 text-slate-800 group-hover:text-[#0a66c2] transition-colors" />
+              </div>
+              <span>LinkedIn</span>
             </a>
+
             <a
-              href="https://twitter.com"
+              href="https://youtu.be/iLz3c5lJIIw?si=PPCBiO3yXpusgOCd"
               target="_blank"
               rel="noreferrer"
-              className="text-gray-400 hover:text-gray-900 transition-colors font-bold"
-              aria-label="X (Twitter)"
+              aria-label="YouTube Video"
+              className="group inline-flex items-center gap-2 text-xs sm:text-sm font-semibold text-slate-700 hover:text-[#ff0000] transition-colors"
             >
-              <span className="text-sm leading-none">𝕏</span>
-            </a>
-            <a
-              href="https://youtube.com"
-              target="_blank"
-              rel="noreferrer"
-              className="text-gray-400 hover:text-gray-900 transition-colors"
-              aria-label="YouTube"
-            >
-              <Youtube className="w-4 h-4" />
+              <div className="w-9 h-9 rounded-full bg-white border border-slate-200/90 shadow-sm flex items-center justify-center group-hover:border-[#ff0000]/40 group-hover:bg-[#ff0000]/10 transition-colors">
+                <Youtube className="w-5 h-5 text-slate-800 group-hover:text-[#ff0000] transition-colors" />
+              </div>
+              <span>YouTube Video</span>
             </a>
           </div>
         </div>

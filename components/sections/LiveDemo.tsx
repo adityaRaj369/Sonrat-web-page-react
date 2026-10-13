@@ -1,208 +1,108 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { Pause, Play, Phone, PhoneOff } from "lucide-react";
-import { StatusBadge } from "@/components/product/DashboardFrame";
+import React, { useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { Headphones, Megaphone, Pause, Play, ShoppingCart } from "lucide-react";
 import { Atmosphere } from "@/components/ui/atmosphere";
-import {
-  playClip,
-  playConnectBeep,
-  playRingBurst,
-  stopClip,
-  unlockDemoAudio,
-} from "@/lib/demo-audio";
 
-type Phase = "ringing" | "pickup" | "talking" | "done";
+type Scenario = {
+  id: string;
+  label: string;
+  title: string;
+  module: string;
+  icon: React.ComponentType<{ className?: string }>;
+  statuses: string[];
+  tools: string;
+  lines: Array<{ from: "customer" | "agent"; text: string }>;
+};
 
-const SCRIPT = [
+const SCENARIOS: Scenario[] = [
   {
-    from: "agent" as const,
-    text: "Hello, this is Ava from Edoply Homes. Am I speaking with Riya Sharma?",
-    audio: "/demo/01-agent.mp3",
+    id: "order",
+    label: "Pizza order",
+    title: "I want to order this pizza.",
+    module: "Company Agent",
+    icon: ShoppingCart,
+    statuses: ["INBOUND_CALL", "PRODUCT_FOUND", "CART_UPDATED", "ORDER_CONFIRMED"],
+    tools: "search_products · add_to_cart · confirm_order",
+    lines: [
+      { from: "customer", text: "Hi, I want to order a large Margherita pizza and garlic bread." },
+      { from: "agent", text: "Sure. I found both items in the catalog. Should I add one large Margherita and one garlic bread?" },
+      { from: "customer", text: "Yes. Delivery to Koramangala, cash on delivery." },
+      { from: "agent", text: "Read-back complete. Order confirmed and saved in the Company Agent orders table." },
+    ],
   },
   {
-    from: "customer" as const,
-    text: "Haan, yes, speaking.",
-    audio: "/demo/02-customer.mp3",
+    id: "refund",
+    label: "Refund complaint",
+    title: "I want to complain about payment refund.",
+    module: "Customer Support",
+    icon: Headphones,
+    statuses: ["INBOUND_CALL", "ISSUE_CAPTURED", "TICKET_CREATED", "FOLLOW_UP_PENDING"],
+    tools: "create_ticket · get_ticket · transfer_to_human",
+    lines: [
+      { from: "customer", text: "My payment was deducted twice and I still have not received the refund." },
+      { from: "agent", text: "I understand. I will create a refund complaint with the payment details you shared." },
+      { from: "customer", text: "Please mark it urgent. It has been five days." },
+      { from: "agent", text: "Ticket created as a high-priority refund issue. The support dashboard now has the complaint and call evidence." },
+    ],
   },
   {
-    from: "agent" as const,
-    text: "Great — calling about Skyline Residences in Whitefield. You asked about 3BHK availability.",
-    audio: "/demo/03-agent.mp3",
-  },
-  {
-    from: "customer" as const,
-    text: "Yes, I saw it online. Are any 3BHKs still left?",
-    audio: "/demo/04-customer.mp3",
-  },
-  {
-    from: "agent" as const,
-    text: "Yes, two units on the 12th and 14th floor. Saturday 11 AM for a site visit?",
-    audio: "/demo/05-agent.mp3",
-  },
-  {
-    from: "customer" as const,
-    text: "Saturday theek hai. Can someone send the location on WhatsApp?",
-    audio: "/demo/06-customer.mp3",
-  },
-  {
-    from: "agent" as const,
-    text: "Absolutely. I’ll create your lead, book the visit, and share the pin.",
-    audio: "/demo/07-agent.mp3",
-  },
-  {
-    from: "customer" as const,
-    text: "Perfect. Please call me if the time changes.",
-    audio: "/demo/08-customer.mp3",
-  },
-  {
-    from: "agent" as const,
-    text: "Done — appointment booked, callback set for tomorrow 5 PM. Thank you, Riya!",
-    audio: "/demo/09-agent.mp3",
+    id: "sales",
+    label: "Sales enquiry",
+    title: "I want to know your pricing and book a callback.",
+    module: "Sales",
+    icon: Megaphone,
+    statuses: ["OUTBOUND_CALL", "ANSWER_RECORDED", "LEAD_CAPTURED", "CALLBACK_SCHEDULED"],
+    tools: "record_answer · create_lead · schedule_callback",
+    lines: [
+      { from: "agent", text: "Hi, I am calling about your interest in the service. Is now a good time?" },
+      { from: "customer", text: "Yes, send pricing first. I may need this for my support team." },
+      { from: "agent", text: "Got it. I will mark you as interested and schedule a callback for tomorrow." },
+      { from: "customer", text: "Tomorrow 5 PM works." },
+    ],
   },
 ];
 
-const RING_MS = 2400;
-const PICKUP_MS = 900;
-const GAP_MS = 380;
-const END_HOLD_MS = 2200;
+function StatusBadge({
+  children,
+  tone = "outline",
+}: {
+  children: React.ReactNode;
+  tone?: "outline" | "accent";
+}) {
+  const className =
+    tone === "accent"
+      ? "border-sky-200 bg-sky-50 text-sky-700"
+      : "border-slate-200 bg-white text-slate-700";
+  return (
+    <span className={`inline-flex items-center rounded-md border px-2 py-0.5 text-[10px] font-medium ${className}`}>
+      {children}
+    </span>
+  );
+}
 
 export function LiveDemo() {
-  const [playing, setPlaying] = useState(false);
-  const [phase, setPhase] = useState<Phase>("ringing");
-  const [visibleCount, setVisibleCount] = useState(0);
-  const [lineIndex, setLineIndex] = useState(-1);
-  const [elapsed, setElapsed] = useState(0);
-  const [soundOn, setSoundOn] = useState(false);
-
-  const runIdRef = useRef(0);
-  const audioReadyRef = useRef(false);
-  const startedAtRef = useRef<number | null>(null);
-  const playingRef = useRef(false);
+  const [activeId, setActiveId] = useState(SCENARIOS[0].id);
+  const [playing, setPlaying] = useState(true);
+  const [visibleCount, setVisibleCount] = useState(2);
+  const active = useMemo(
+    () => SCENARIOS.find((scenario) => scenario.id === activeId) ?? SCENARIOS[0],
+    [activeId],
+  );
+  const ActiveIcon = active.icon;
 
   useEffect(() => {
-    playingRef.current = playing;
-  }, [playing]);
+    setVisibleCount(2);
+  }, [activeId]);
 
   useEffect(() => {
     if (!playing) return;
-    const tick = window.setInterval(() => {
-      if (startedAtRef.current == null) return;
-      setElapsed(Date.now() - startedAtRef.current);
-    }, 100);
-    return () => window.clearInterval(tick);
-  }, [playing]);
-
-  useEffect(() => {
-    if (!playing) return;
-
-    const runId = ++runIdRef.current;
-    let cancelled = false;
-
-    const stillActive = () => !cancelled && runIdRef.current === runId && playingRef.current;
-
-    const wait = (ms: number) =>
-      new Promise<void>((resolve) => {
-        window.setTimeout(resolve, ms);
-      });
-
-    const run = async () => {
-      startedAtRef.current = Date.now();
-      setPhase("ringing");
-      setVisibleCount(0);
-      setLineIndex(-1);
-      stopClip();
-
-      const ctx = await unlockDemoAudio();
-      if (!stillActive()) return;
-
-      // Ringing
-      if (ctx && soundOn) {
-        playRingBurst(ctx);
-        await wait(1100);
-        if (!stillActive()) return;
-        playRingBurst(ctx);
-        await wait(Math.max(0, RING_MS - 1100));
-      } else {
-        await wait(RING_MS);
-      }
-      if (!stillActive()) return;
-
-      // Pickup
-      setPhase("pickup");
-      if (ctx && soundOn) playConnectBeep(ctx);
-      await wait(PICKUP_MS);
-      if (!stillActive()) return;
-
-      // Conversation
-      setPhase("talking");
-      for (let i = 0; i < SCRIPT.length; i++) {
-        if (!stillActive()) return;
-        setLineIndex(i);
-        setVisibleCount(i + 1);
-
-        if (soundOn) {
-          try {
-            await playClip(SCRIPT[i].audio);
-          } catch {
-            await wait(2200);
-          }
-        } else {
-          await wait(2200);
-        }
-
-        if (!stillActive()) return;
-        await wait(GAP_MS);
-      }
-
-      if (!stillActive()) return;
-      setPhase("done");
-      await wait(END_HOLD_MS);
-      if (!stillActive()) return;
-
-      // Loop
-      void run();
-    };
-
-    void run();
-
-    return () => {
-      cancelled = true;
-      stopClip();
-    };
-  }, [playing, soundOn]);
-
-  const enableSound = async () => {
-    const ctx = await unlockDemoAudio();
-    if (ctx) {
-      audioReadyRef.current = true;
-      setSoundOn(true);
-    }
-    return ctx;
-  };
-
-  const togglePlay = async () => {
-    if (!playing) {
-      await enableSound();
-      setPlaying(true);
-      return;
-    }
-    stopClip();
-    runIdRef.current += 1;
-    setPlaying(false);
-  };
-
-  const statusLabel =
-    phase === "ringing"
-      ? "RINGING"
-      : phase === "pickup"
-        ? "CONNECTED"
-        : phase === "done"
-          ? "APPOINTMENT_BOOKED"
-          : "AI_ACTIVE";
-
-  const clock = Math.min(Math.floor(elapsed / 1000), 99);
+    const id = window.setInterval(() => {
+      setVisibleCount((count) => (count >= active.lines.length ? 1 : count + 1));
+    }, 1800);
+    return () => window.clearInterval(id);
+  }, [active.lines.length, playing]);
 
   return (
     <section id="demo" className="relative py-16 md:py-24 border-t border-slate-200/70">
@@ -214,135 +114,115 @@ export function LiveDemo() {
           viewport={{ once: true, amount: 0.2 }}
           className="mb-8 md:mb-10 max-w-3xl"
         >
-          <p className="section-label mb-3">Live call path</p>
+          <p className="section-label mb-3">Voice workflow demos</p>
           <h2 className="headline text-3xl sm:text-4xl lg:text-[2.75rem] mb-4 leading-[1.15] tracking-[-0.02em]">
-            From RINGING to APPOINTMENT BOOKED.
+            Calls can create orders, tickets, and leads.
           </h2>
           <p className="text-base sm:text-lg text-neutral-700 leading-relaxed font-medium">
-            Campaign dial → Ava answers as Edoply Homes → mid-call tools create the lead,
-            book the visit, and schedule a callback. Same states your dashboard records.
+            The demo now mirrors Sonrat’s actual product modules: Company Agent for orders,
+            Customer Support for complaints, and Sales for outbound follow-up.
           </p>
         </motion.div>
 
-        <div className="flex flex-wrap items-center gap-2 mb-8">
-          {["RINGING", "CONNECTED", "AI_ACTIVE", "APPOINTMENT_BOOKED"].map((s) => (
-            <StatusBadge key={s} tone={s === "APPOINTMENT_BOOKED" ? "accent" : "outline"}>
-              {s}
-            </StatusBadge>
-          ))}
+        <div className="flex flex-wrap gap-2 mb-8">
+          {SCENARIOS.map((scenario) => {
+            const Icon = scenario.icon;
+            const activeScenario = scenario.id === active.id;
+            return (
+              <button
+                key={scenario.id}
+                type="button"
+                onClick={() => setActiveId(scenario.id)}
+                className={`inline-flex items-center gap-2 rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors ${
+                  activeScenario
+                    ? "border-slate-950 bg-slate-950 text-white"
+                    : "border-slate-200 bg-white/80 text-slate-700 hover:text-slate-950"
+                }`}
+              >
+                <Icon className="h-4 w-4" />
+                {scenario.label}
+              </button>
+            );
+          })}
         </div>
 
         <motion.div
+          key={active.id}
           initial={{ opacity: 0, y: 18 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          animate={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.15 }}
         >
           <div className="rounded-2xl border border-slate-200 bg-[#0f172a] overflow-hidden shadow-[0_24px_60px_-24px_rgba(15,23,42,0.55)]">
-            <div className="grid grid-cols-1 sm:grid-cols-2 min-h-[420px]">
-              <div className="p-6 sm:p-7 border-b sm:border-b-0 sm:border-r border-white/10 flex flex-col">
+            <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[420px]">
+              <div className="lg:col-span-5 p-6 sm:p-7 border-b lg:border-b-0 lg:border-r border-white/10 flex flex-col">
                 <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400 mb-2">
-                  Edoply Weekend Visit Drive
+                  {active.module}
                 </p>
-                <h3 className="text-white text-lg font-semibold mb-1">Ava · Sales agent</h3>
-                <p className="text-xs text-slate-400 mb-5">Contact: Riya Sharma · Bengaluru</p>
+                <h3 className="text-white text-xl font-semibold mb-2">{active.title}</h3>
+                <p className="text-xs text-slate-400 mb-5">
+                  This is a product preview. It shows intended dashboard records, not a public launch.
+                </p>
+
+                <div className="flex flex-wrap gap-2 mb-5">
+                  {active.statuses.map((status, i) => (
+                    <StatusBadge key={status} tone={i === active.statuses.length - 1 ? "accent" : "outline"}>
+                      {status}
+                    </StatusBadge>
+                  ))}
+                </div>
+
                 <div className="space-y-2 text-xs text-slate-300 mb-auto">
-                  <div className="flex justify-between border border-white/10 rounded-lg px-3 py-2">
-                    <span>Status</span>
-                    <span className="text-emerald-400 font-medium">{statusLabel}</span>
+                  <div className="flex justify-between gap-4 border border-white/10 rounded-lg px-3 py-2">
+                    <span>Module</span>
+                    <span className="text-white text-right">{active.module}</span>
                   </div>
-                  <div className="flex justify-between border border-white/10 rounded-lg px-3 py-2">
+                  <div className="flex justify-between gap-4 border border-white/10 rounded-lg px-3 py-2">
                     <span>Tools</span>
-                    <span className="text-white text-right">lead · appointment · callback</span>
+                    <span className="text-white text-right">{active.tools}</span>
                   </div>
-                  <div className="flex justify-between border border-white/10 rounded-lg px-3 py-2">
-                    <span>Languages</span>
-                    <span className="text-white">EN → HI</span>
+                  <div className="flex justify-between gap-4 border border-white/10 rounded-lg px-3 py-2">
+                    <span>Dashboard output</span>
+                    <span className="text-white text-right">{active.statuses.at(-1)}</span>
                   </div>
                 </div>
-                <div className="mt-6 flex items-center gap-3 text-white/70">
-                  <button onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>
-                    {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-                  </button>
-                  <div className="flex-1 h-1 rounded-full bg-white/15 overflow-hidden">
-                    <div
-                      className="h-full bg-white rounded-full transition-[width] duration-200"
-                      style={{
-                        width: `${Math.min(100, ((visibleCount + (phase === "done" ? 1 : 0)) / (SCRIPT.length + 1)) * 100)}%`,
-                      }}
-                    />
-                  </div>
-                  <span className="text-[10px] tabular-nums">
-                    0:{String(clock).padStart(2, "0")}
-                  </span>
-                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setPlaying((value) => !value)}
+                  className="mt-6 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-xs font-semibold text-white/80 hover:text-white hover:bg-white/5"
+                >
+                  {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+                  {playing ? "Pause demo" : "Play demo"}
+                </button>
               </div>
 
-              <div className="p-6 sm:p-7 flex items-center justify-center bg-[#111827]">
-                <div className="w-full max-w-[250px] rounded-[32px] bg-black border border-white/15 p-3">
-                  <div className="mx-auto mb-3 h-5 w-20 rounded-full bg-zinc-900" />
-                  <div className="rounded-[24px] bg-zinc-900 min-h-[310px] px-4 py-5 flex flex-col">
-                    <AnimatePresence mode="wait">
-                      {phase === "ringing" || phase === "pickup" ? (
-                        <motion.div
-                          key={phase}
-                          initial={{ opacity: 0, y: 8 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          exit={{ opacity: 0, y: -8 }}
-                          className="flex-1 flex flex-col items-center justify-center text-center"
-                        >
-                          <p className="text-[10px] uppercase tracking-[0.2em] text-zinc-500 mb-2">
-                            {phase === "ringing" ? "Outbound dial" : "Connecting"}
-                          </p>
-                          <p className="text-white text-lg font-semibold mb-1">Riya Sharma</p>
-                          <p className="text-zinc-500 text-xs mb-8">Prospect · +91 98…</p>
-                          <div className="flex items-center gap-8">
-                            <div className="flex flex-col items-center gap-2">
-                              <div className="h-12 w-12 rounded-full bg-red-500/90 text-white flex items-center justify-center">
-                                <PhoneOff className="w-5 h-5" />
-                              </div>
-                              <span className="text-[10px] text-zinc-500">Decline</span>
-                            </div>
-                            <motion.div
-                              animate={phase === "ringing" ? { scale: [1, 1.1, 1] } : { scale: 1.06 }}
-                              transition={{ duration: 0.9, repeat: Infinity }}
-                              className="flex flex-col items-center gap-2"
-                            >
-                              <div className="h-12 w-12 rounded-full bg-emerald-500 text-white flex items-center justify-center shadow-[0_0_24px_rgba(16,185,129,0.45)]">
-                                <Phone className="w-5 h-5" />
-                              </div>
-                              <span className="text-[10px] text-zinc-500">
-                                {phase === "pickup" ? "Answered" : "Accept"}
-                              </span>
-                            </motion.div>
-                          </div>
-                        </motion.div>
-                      ) : (
-                        <motion.div key="talking" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex-1 flex flex-col min-h-0">
-                          <div className="mb-4 shrink-0">
-                            <p className="text-white text-sm font-semibold">Riya Sharma</p>
-                            <p className="text-[10px] text-emerald-400">
-                              {phase === "done" ? "Call complete · booked" : "Live with Ava · Edoply Homes"}
-                            </p>
-                          </div>
-                          <div className="flex-1 space-y-2.5 overflow-y-auto pr-1">
-                            {SCRIPT.slice(0, visibleCount).map((line, i) => (
-                              <motion.div
-                                key={line.audio}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
-                                className={`max-w-[95%] rounded-2xl px-3 py-2 text-[11px] leading-relaxed ${
-                                  line.from === "customer"
-                                    ? "ml-auto bg-white text-slate-900"
-                                    : "mr-auto bg-zinc-800 text-zinc-100 border border-white/10"
-                                } ${i === lineIndex ? "ring-1 ring-emerald-400/40" : ""}`}
-                              >
-                                {line.text}
-                              </motion.div>
-                            ))}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
+              <div className="lg:col-span-7 p-6 sm:p-7 bg-[#111827]">
+                <div className="mb-5 flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-white text-slate-950 flex items-center justify-center">
+                    <ActiveIcon className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{active.label}</p>
+                    <p className="text-[11px] text-emerald-300">Live call transcript preview</p>
+                  </div>
+                </div>
+
+                <div className="rounded-[24px] bg-black/45 border border-white/10 p-4 min-h-[300px]">
+                  <div className="space-y-3">
+                    {active.lines.slice(0, visibleCount).map((line, index) => (
+                      <motion.div
+                        key={`${active.id}-${index}-${line.text}`}
+                        initial={{ opacity: 0, y: 8 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm leading-relaxed ${
+                          line.from === "customer"
+                            ? "ml-auto bg-white text-slate-900"
+                            : "mr-auto bg-zinc-800 text-zinc-100 border border-white/10"
+                        }`}
+                      >
+                        {line.text}
+                      </motion.div>
+                    ))}
                   </div>
                 </div>
               </div>

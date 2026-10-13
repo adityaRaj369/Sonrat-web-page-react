@@ -4,7 +4,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Sonrat",
     short_name: "Sonrat",
-    description: "AI voice agents for outbound sales and inbound customer support.",
+    description: "AI voice workspace preview for orders, support tickets, and sales follow-up.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",
