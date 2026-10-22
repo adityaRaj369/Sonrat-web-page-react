@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Space_Grotesk, DM_Sans, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sonrat.ai";
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://sonrat.com";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],

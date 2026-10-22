@@ -98,6 +98,14 @@ export function Footer() {
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
           <div>
             © 2026 Sonrat. All rights reserved.
+            <span className="mx-2 text-slate-300">·</span>
+            <Link href="/privacy" className="hover:text-slate-900 transition-colors">
+              Privacy
+            </Link>
+            <span className="mx-2 text-slate-300">·</span>
+            <Link href="/terms" className="hover:text-slate-900 transition-colors">
+              Terms
+            </Link>
           </div>
 
           <div className="flex items-center gap-4 sm:gap-6">
