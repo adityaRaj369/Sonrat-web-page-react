@@ -48,7 +48,7 @@ export function FinalCta() {
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-2 bg-[#050505] hover:bg-zinc-800 text-white font-semibold text-sm px-6 py-3.5 rounded-full transition-colors shadow-sm"
               >
-                Open live dashboard
+                Get Started
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
               </a>
 

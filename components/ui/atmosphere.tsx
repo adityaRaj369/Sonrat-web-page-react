@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
 
 export function SiteBackdrop() {
   return (
@@ -32,30 +31,22 @@ export function Atmosphere({
       <div className="atmosphere__rings" />
       <div className="atmosphere__noise" />
 
-      <motion.div
+      <div
         className={`atmosphere__orb atmosphere__orb--ink ${dense ? "w-[42rem] h-[42rem]" : "w-[32rem] h-[32rem]"}`}
         style={{ top: "-18%", right: "-6%" }}
-        animate={{ x: [0, 28, -10, 0], y: [0, 18, -14, 0], scale: [1, 1.08, 0.96, 1] }}
-        transition={{ duration: 22, repeat: Infinity, ease: "easeInOut" }}
       />
-      <motion.div
+      <div
         className={`atmosphere__orb atmosphere__orb--slate ${dense ? "w-[34rem] h-[34rem]" : "w-[26rem] h-[26rem]"}`}
         style={{ bottom: "-12%", left: "-10%" }}
-        animate={{ x: [0, -22, 16, 0], y: [0, -20, 12, 0], scale: [1, 1.06, 0.94, 1] }}
-        transition={{ duration: 26, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
       />
-      <motion.div
+      <div
         className="atmosphere__orb atmosphere__orb--mist w-[22rem] h-[22rem]"
         style={{ top: "38%", left: "42%" }}
-        animate={{ x: [0, 14, -18, 0], y: [0, -16, 10, 0], opacity: [0.45, 0.7, 0.4, 0.45] }}
-        transition={{ duration: 18, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
       />
       {dense && (
-        <motion.div
+        <div
           className="atmosphere__orb atmosphere__orb--warm w-[18rem] h-[18rem]"
           style={{ top: "12%", left: "18%" }}
-          animate={{ x: [0, 12, -8, 0], y: [0, 10, -12, 0] }}
-          transition={{ duration: 20, repeat: Infinity, ease: "easeInOut", delay: 2 }}
         />
       )}
 

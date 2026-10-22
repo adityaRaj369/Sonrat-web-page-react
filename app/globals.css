@@ -103,7 +103,6 @@ video {
     radial-gradient(circle at 78% 22%, rgba(71, 85, 105, 0.08), transparent 26%),
     radial-gradient(circle at 55% 70%, rgba(148, 163, 184, 0.12), transparent 32%);
   filter: blur(8px);
-  animation: mesh-shift 28s ease-in-out infinite alternate;
 }
 
 .site-backdrop__beams {
@@ -113,7 +112,6 @@ video {
     linear-gradient(115deg, transparent 0%, rgba(255, 255, 255, 0.35) 42%, transparent 58%),
     linear-gradient(245deg, transparent 10%, rgba(148, 163, 184, 0.08) 48%, transparent 70%);
   background-size: 180% 180%;
-  animation: beam-sweep 18s ease-in-out infinite;
   mix-blend-mode: soft-light;
 }
 
@@ -156,7 +154,6 @@ video {
     radial-gradient(38% 34% at 18% 78%, rgba(100, 116, 139, 0.11), transparent 72%),
     radial-gradient(30% 28% at 48% 42%, rgba(255, 255, 255, 0.55), transparent 75%);
   filter: blur(20px);
-  animation: aurora-breathe 16s ease-in-out infinite;
 }
 
 .atmosphere__grid {
@@ -167,7 +164,6 @@ video {
     linear-gradient(to bottom, rgba(15, 23, 42, 0.055) 1px, transparent 1px);
   background-size: 72px 72px;
   mask-image: radial-gradient(ellipse 75% 65% at 50% 28%, black 20%, transparent 75%);
-  animation: grid-pan 40s linear infinite;
 }
 
 .atmosphere__dots {
@@ -191,7 +187,6 @@ video {
     inset 0 0 0 48px rgba(15, 23, 42, 0.015),
     inset 0 0 0 96px rgba(15, 23, 42, 0.012),
     inset 0 0 0 144px rgba(15, 23, 42, 0.01);
-  animation: ring-pulse 10s ease-in-out infinite;
 }
 
 .atmosphere__noise {
@@ -239,7 +234,6 @@ video {
   inset: 0;
   background: linear-gradient(120deg, transparent 30%, rgba(255, 255, 255, 0.35) 48%, transparent 62%);
   background-size: 220% 220%;
-  animation: sheen-move 14s ease-in-out infinite;
   mix-blend-mode: soft-light;
 }
 
@@ -370,4 +364,14 @@ video {
 .wave-bar {
   transform-origin: center;
   animation: waveform-live 1.1s ease-in-out infinite;
+}
+
+/* Keep the mobile layout visually stable; the dashboard preview remains fully static. */
+@media (max-width: 767px) {
+  .animate-pulse,
+  .animate-ping,
+  .animate-wave-bar-2,
+  .wave-bar {
+    animation: none !important;
+  }
 }
