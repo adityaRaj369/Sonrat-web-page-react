@@ -25,18 +25,14 @@ export default function Home() {
 
       <main id="main-content">
         <section id="product">
-          <Hero
-            onOpenDemo={() => setIsSalesOpen(true)}
-          />
+          <Hero />
         </section>
 
         <DashboardVideo />
         <Architecture />
         <HowItWorks />
         <ProductModules />
-        <FinalCta
-          onOpenDemo={() => setIsSalesOpen(true)}
-        />
+        <FinalCta />
       </main>
 
       <Footer />

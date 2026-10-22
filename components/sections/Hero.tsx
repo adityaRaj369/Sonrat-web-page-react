@@ -10,11 +10,7 @@ import {
 } from "lucide-react";
 import { Atmosphere } from "@/components/ui/atmosphere";
 
-interface HeroProps {
-  onOpenDemo: () => void;
-}
-
-export function Hero({ onOpenDemo }: HeroProps) {
+export function Hero() {
   return (
     <section className="relative pt-28 pb-12 sm:pt-32 sm:pb-16 md:pt-36 md:pb-20 overflow-hidden">
       <Atmosphere variant="dense" />
@@ -65,10 +61,15 @@ export function Hero({ onOpenDemo }: HeroProps) {
               transition={{ delay: 0.16 }}
               className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6 w-full sm:w-auto"
             >
-              <button onClick={onOpenDemo} className="btn-primary w-full sm:w-auto justify-center">
-                Book a demo preview
+              <a
+                href="https://app.sonrat.com/login"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-primary w-full sm:w-auto justify-center"
+              >
+                Open dashboard
                 <ArrowRight className="w-4 h-4" />
-              </button>
+              </a>
               <a href="#product-modules" className="btn-secondary w-full sm:w-auto justify-center">
                 View platform modules
               </a>

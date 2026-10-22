@@ -3,11 +3,7 @@
 import React from "react";
 import { ArrowRight, Mail } from "lucide-react";
 
-interface FinalCtaProps {
-  onOpenDemo?: () => void;
-}
-
-export function FinalCta({ onOpenDemo }: FinalCtaProps) {
+export function FinalCta() {
   return (
     <section id="pricing" className="py-16 sm:py-24 relative overflow-hidden">
       <div className="site-shell">
@@ -46,13 +42,15 @@ export function FinalCta({ onOpenDemo }: FinalCtaProps) {
             </div>
 
             <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 shrink-0">
-              <button
-                onClick={onOpenDemo}
+              <a
+                href="https://app.sonrat.com/login"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="group inline-flex items-center justify-center gap-2 bg-[#050505] hover:bg-zinc-800 text-white font-semibold text-sm px-6 py-3.5 rounded-full transition-colors shadow-sm"
               >
-                Demo booking upcoming
+                Open live dashboard
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
-              </button>
+              </a>
 
               <a
                 href="mailto:support@sonrat.com"
